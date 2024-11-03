@@ -396,7 +396,7 @@ var MicroEditor = (function() {
 
 	function setupFocus() {
 		const editor = document.getElementById(textBoxID);
-		editor.focus();
+//		editor.focus();
 		applyStyles();
 	}
 	

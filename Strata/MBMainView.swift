@@ -62,7 +62,7 @@ struct MBMainView: View {
 				Button(action: {
 					newNote()
 				}) {
-					Image(systemName: "square.and.pencil")
+					Label("New Note", systemImage: "square.and.pencil")
 				}
 			}
 		}
