@@ -21,11 +21,18 @@ struct MBSigninView: View {
 
 			Button("Sign In") {
 				print("Token: \(email)")
-				MBKeychain.shared.save(key: "Strata: Token", value: email)
+				saveToken(email)
 			}
 			.padding()
 		}
 		.frame(width: 200, height: 200)
+	}
+	
+	private func saveToken(_ token: String) {
+//		MBKeychain.shared.save(key: "Strata: Secret", value: "")
+		if !MBKeychain.shared.save(key: "Strata: Token", value: token) {
+			print("Error saving token")
+		}
 	}
 }
 

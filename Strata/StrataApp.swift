@@ -11,7 +11,7 @@ import SwiftUI
 struct StrataApp: App {
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
+			MBMainView()
 		}
 		
 		WindowGroup {

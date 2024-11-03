@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MBMainView.swift
 //  Strata
 //
 //  Created by Manton Reece on 8/29/24.
@@ -7,18 +7,33 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MBMainView: View {
 	@State private var notes: [FeedItem] = []
 
 	var body: some View {
 		NavigationSplitView {
-			List(notes) { note in
+			List(notes.indices, id: \.self) { index in
+				let note = notes[index]
 				NavigationLink(destination: DetailView(note: note)) {
-					Text(note.contentText)
+					if let secret_key = MBKeychain.shared.get(key: "Strata: Secret") {
+						let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
+						let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
+						HStack {
+							Text(s)
+								.lineLimit(3)
+								.padding(10)
+							Spacer() // pushes the text to the left, taking up full width
+						}
+						.background(index % 2 == 0 ? Color.gray.opacity(0.1) : Color.clear)
+					}
 				}
+				.listRowInsets(EdgeInsets())
+				.padding(0)
 			}
 			.frame(minWidth: 200)
-			.listStyle(SidebarListStyle())
+//			.listStyle(SidebarListStyle())
+			.listStyle(PlainListStyle())
+			.padding(0)
 		}
 		detail: {
 		}
@@ -74,5 +89,5 @@ struct JSONFeed: Decodable {
 }
 
 #Preview {
-    ContentView()
+	MBMainView()
 }
