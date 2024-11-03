@@ -31,6 +31,10 @@ struct StrataApp: App {
 				.keyboardShortcut("f", modifiers: .command)
 			}
 		}
+		
+		Settings {
+			MBSettingsView()
+		}
 	}
 	
 	func openSignInWindow() {
@@ -38,7 +42,7 @@ struct StrataApp: App {
 			NSWorkspace.shared.open(url)
 		}
 	}
-	
+
 	func focusSearchField() {
 		NotificationCenter.default.post(name: .focusSearchField, object: nil)
 	}
