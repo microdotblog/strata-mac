@@ -21,19 +21,19 @@ struct MBMainView: View {
 						HStack {
 							Text(s)
 								.lineLimit(3)
-								.padding(10)
+								.padding(.horizontal, 5)
+								.padding(.vertical, 14)
 							Spacer() // pushes the text to the left, taking up full width
 						}
-						.background(index % 2 == 0 ? Color.gray.opacity(0.1) : Color.clear)
 					}
 				}
 				.listRowInsets(EdgeInsets())
+				.listRowSeparator(.hidden)
 				.padding(0)
+				.listRowBackground(index % 2 == 0 ? Color.gray.opacity(0.1) : Color.clear)
 			}
 			.frame(minWidth: 200)
-//			.listStyle(SidebarListStyle())
 			.listStyle(PlainListStyle())
-			.padding(0)
 		}
 		detail: {
 		}
