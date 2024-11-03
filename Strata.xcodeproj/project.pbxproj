@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B8059FB2CD6DC750092D9DB /* MBSigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8059FA2CD6DC750092D9DB /* MBSigninView.swift */; };
+		4B8059FE2CD71D8D0092D9DB /* MBKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8059FD2CD71D8D0092D9DB /* MBKeychain.swift */; };
 		4BA0F2DE2C80C58800FFA0CC /* StrataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA0F2DD2C80C58800FFA0CC /* StrataApp.swift */; };
 		4BA0F2E02C80C58800FFA0CC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA0F2DF2C80C58800FFA0CC /* ContentView.swift */; };
 		4BA0F2E22C80C58900FFA0CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BA0F2E12C80C58900FFA0CC /* Assets.xcassets */; };
@@ -20,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B8059FA2CD6DC750092D9DB /* MBSigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBSigninView.swift; path = Source/MBSigninView.swift; sourceTree = "<group>"; };
+		4B8059FC2CD6DD9F0092D9DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4B8059FD2CD71D8D0092D9DB /* MBKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBKeychain.swift; path = Source/MBKeychain.swift; sourceTree = "<group>"; };
 		4BA0F2DA2C80C58800FFA0CC /* Strata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Strata.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BA0F2DD2C80C58800FFA0CC /* StrataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrataApp.swift; sourceTree = "<group>"; };
 		4BA0F2DF2C80C58800FFA0CC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,9 +71,12 @@
 		4BA0F2DC2C80C58800FFA0CC /* Strata */ = {
 			isa = PBXGroup;
 			children = (
+				4B8059FC2CD6DD9F0092D9DB /* Info.plist */,
 				4BA0F2DD2C80C58800FFA0CC /* StrataApp.swift */,
 				4BA0F2DF2C80C58800FFA0CC /* ContentView.swift */,
+				4B8059FA2CD6DC750092D9DB /* MBSigninView.swift */,
 				4BA0F2EC2C80C9F600FFA0CC /* MBWebView.swift */,
+				4B8059FD2CD71D8D0092D9DB /* MBKeychain.swift */,
 				4BA0F2EE2C80CE5000FFA0CC /* micro_editor.html */,
 				4BA0F2F42C80D11700FFA0CC /* micro_editor.js */,
 				4BA0F2F32C80D11700FFA0CC /* micro_editor.css */,
@@ -172,7 +180,9 @@
 			files = (
 				4BA0F2ED2C80C9F600FFA0CC /* MBWebView.swift in Sources */,
 				4BA0F2E02C80C58800FFA0CC /* ContentView.swift in Sources */,
+				4B8059FE2CD71D8D0092D9DB /* MBKeychain.swift in Sources */,
 				4BA0F2DE2C80C58800FFA0CC /* StrataApp.swift in Sources */,
+				4B8059FB2CD6DC750092D9DB /* MBSigninView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +321,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Strata/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -338,6 +349,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Strata/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
