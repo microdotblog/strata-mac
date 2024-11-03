@@ -11,6 +11,7 @@ struct MBMainView: View {
 	@State private var notes: [FeedItem] = []
 	@State private var searchText = ""
 	@FocusState private var isSearchFocused: Bool
+	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 
 	var currentNotes: [FeedItem] {
 		if searchText.isEmpty {
@@ -23,7 +24,7 @@ struct MBMainView: View {
 	}
 
 	var body: some View {
-		NavigationSplitView {
+		NavigationSplitView(columnVisibility: $columnVisibility) {
 			List(currentNotes.indices, id: \.self) { index in
 				let note = currentNotes[index]
 				NavigationLink(destination: DetailView(note: note)) {
@@ -46,6 +47,7 @@ struct MBMainView: View {
 			}
 			.frame(minWidth: 200)
 			.listStyle(PlainListStyle())
+			.navigationSplitViewColumnWidth(min: 100, ideal: 200)
 		}
 		detail: {
 		}

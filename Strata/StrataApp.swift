@@ -26,7 +26,7 @@ struct StrataApp: App {
 			}
 			CommandGroup(replacing: .textEditing) {
 				Button("Find") {
-					NotificationCenter.default.post(name: .focusSearchField, object: nil)
+					focusSearchField()
 				}
 				.keyboardShortcut("f", modifiers: .command)
 			}
@@ -37,5 +37,9 @@ struct StrataApp: App {
 		if let url = URL(string: "strata://signin") {
 			NSWorkspace.shared.open(url)
 		}
+	}
+	
+	func focusSearchField() {
+		NotificationCenter.default.post(name: .focusSearchField, object: nil)
 	}
 }
