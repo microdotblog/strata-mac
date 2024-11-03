@@ -27,7 +27,7 @@ struct MBMainView: View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
 			List(currentNotes.indices, id: \.self) { index in
 				let note = currentNotes[index]
-				NavigationLink(destination: DetailView(note: note)) {
+				NavigationLink(destination: MBDetailView(note: note)) {
 					if let secret_key = MBKeychain.shared.get(key: "Strata: Secret") {
 						let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
 						let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
@@ -98,29 +98,6 @@ struct MBMainView: View {
 	
 	private func newNote() {
 	}
-}
-
-struct DetailView: View {
-	let note: FeedItem
-	
-	var body: some View {
-		MBWebView()
-	}
-}
-
-struct FeedItem: Identifiable, Decodable {
-	let id = UUID()
-	let title: String
-	let contentText: String
-
-	private enum CodingKeys: String, CodingKey {
-		case title
-		case contentText = "content_text"
-	}
-}
-
-struct JSONFeed: Decodable {
-	let items: [FeedItem]
 }
 
 #Preview {
