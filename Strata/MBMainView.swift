@@ -9,11 +9,22 @@ import SwiftUI
 
 struct MBMainView: View {
 	@State private var notes: [FeedItem] = []
+	@State private var searchText = ""
+
+	var currentNotes: [FeedItem] {
+		if searchText.isEmpty {
+			return notes
+		}
+		else {
+			// ...
+			return notes
+		}
+	}
 
 	var body: some View {
 		NavigationSplitView {
-			List(notes.indices, id: \.self) { index in
-				let note = notes[index]
+			List(currentNotes.indices, id: \.self) { index in
+				let note = currentNotes[index]
 				NavigationLink(destination: DetailView(note: note)) {
 					if let secret_key = MBKeychain.shared.get(key: "Strata: Secret") {
 						let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
@@ -34,6 +45,7 @@ struct MBMainView: View {
 			}
 			.frame(minWidth: 200)
 			.listStyle(PlainListStyle())
+			.searchable(text: $searchText, prompt: "Search")
 		}
 		detail: {
 		}
@@ -41,7 +53,7 @@ struct MBMainView: View {
 			fetchNotes()
 		}
 	}
-	
+
 	private func fetchNotes() {
 		if let token = MBKeychain.shared.get(key: "Strata: Token") {
 			guard let url = URL(string: "https://micro.blog/notes/notebooks/1") else { return }
