@@ -34,7 +34,3 @@ struct MBSettingsView: View {
 		}
     }
 }
-
-#Preview {
-	MBSettingsView()
-}

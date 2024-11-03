@@ -34,7 +34,3 @@ struct MBSigninView: View {
 		}
 	}
 }
-
-#Preview {
-    MBSigninView()
-}

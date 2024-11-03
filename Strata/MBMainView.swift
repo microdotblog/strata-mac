@@ -99,7 +99,3 @@ struct MBMainView: View {
 	private func newNote() {
 	}
 }
-
-#Preview {
-	MBMainView()
-}
