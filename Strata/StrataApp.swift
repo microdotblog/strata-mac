@@ -24,6 +24,12 @@ struct StrataApp: App {
 					openSignInWindow()
 				}
 			}
+			CommandGroup(replacing: .textEditing) {
+				Button("Find") {
+					NotificationCenter.default.post(name: .focusSearchField, object: nil)
+				}
+				.keyboardShortcut("f", modifiers: .command)
+			}
 		}
 	}
 	

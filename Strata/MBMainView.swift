@@ -10,6 +10,7 @@ import SwiftUI
 struct MBMainView: View {
 	@State private var notes: [FeedItem] = []
 	@State private var searchText = ""
+	@FocusState private var isSearchFocused: Bool
 
 	var currentNotes: [FeedItem] {
 		if searchText.isEmpty {
@@ -45,12 +46,22 @@ struct MBMainView: View {
 			}
 			.frame(minWidth: 200)
 			.listStyle(PlainListStyle())
-			.searchable(text: $searchText, prompt: "Search")
 		}
 		detail: {
 		}
+		.toolbar {
+			ToolbarItem(placement: .principal) {
+				TextField("Search", text: $searchText)
+					.focused($isSearchFocused)
+					.textFieldStyle(RoundedBorderTextFieldStyle())
+					.frame(width: 200)
+			}
+		}
 		.onAppear {
 			fetchNotes()
+		}
+		.onReceive(NotificationCenter.default.publisher(for: .focusSearchField)) { _ in
+			isSearchFocused = true
 		}
 	}
 
