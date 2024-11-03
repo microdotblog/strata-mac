@@ -1,9 +1,17 @@
 body {
 	padding: 0px;
 	margin: 0px;
+	background-color: #fdf9dd;
 }
 
 .editor {
 	font-family: sans-serif;
 	border: 0px;
+	border-radius: 0px;
+	background-color: #fdf9dd;
+	height: 100%;
+}
+
+.editor:focus {
+	outline: 2px solid transparent;
 }

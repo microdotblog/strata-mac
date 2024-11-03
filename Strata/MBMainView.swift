@@ -56,6 +56,13 @@ struct MBMainView: View {
 					.textFieldStyle(RoundedBorderTextFieldStyle())
 					.frame(width: 200)
 			}
+			ToolbarItem(placement: .primaryAction) {
+				Button(action: {
+					newNote()
+				}) {
+					Image(systemName: "square.and.pencil")
+				}
+			}
 		}
 		.onAppear {
 			fetchNotes()
@@ -85,6 +92,9 @@ struct MBMainView: View {
 				}
 			}.resume()
 		}
+	}
+	
+	private func newNote() {
 	}
 }
 
