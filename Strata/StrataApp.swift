@@ -13,7 +13,15 @@ struct StrataApp: App {
 		WindowGroup {
 			MBMainView()
 		}
-		
+		.commands {
+			CommandGroup(replacing: .textEditing) {
+				Button("Find") {
+					focusSearchField()
+				}
+				.keyboardShortcut("f", modifiers: .command)
+			}
+		}
+
 		WindowGroup {
 			MBSigninView()
 		}
@@ -23,12 +31,6 @@ struct StrataApp: App {
 				Button("Sign In...") {
 					openSignInWindow()
 				}
-			}
-			CommandGroup(replacing: .textEditing) {
-				Button("Find") {
-					focusSearchField()
-				}
-				.keyboardShortcut("f", modifiers: .command)
 			}
 		}
 		
