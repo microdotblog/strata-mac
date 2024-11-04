@@ -5,7 +5,9 @@ body {
 }
 
 .editor {
-	font-family: sans-serif;
+	font-family: -apple-system;
+	font-size: 15px;
+	padding: 12px;
 	border: 0px;
 	border-radius: 0px;
 	background-color: #fdf9dd;

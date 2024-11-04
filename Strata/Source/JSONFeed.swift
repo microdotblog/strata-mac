@@ -12,11 +12,12 @@ struct JSONFeed: Decodable {
 }
 
 struct FeedItem: Identifiable, Decodable {
-	let id = UUID()
+	let id: Int
 	let title: String
 	let contentText: String
 
 	private enum CodingKeys: String, CodingKey {
+		case id
 		case title
 		case contentText = "content_text"
 	}
