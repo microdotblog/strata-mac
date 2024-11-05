@@ -56,7 +56,7 @@ struct MBSigninView: View {
 	}
 	
 	private func submitEmail(_ email: String) {
-		guard let url = URL(string: "https://micro.blog/account/signin") else { return }
+		guard let url = URL(string: "\(Constants.baseURL)/account/signin") else { return }
 
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"

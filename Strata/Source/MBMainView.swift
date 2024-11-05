@@ -139,7 +139,7 @@ struct MBMainView: View {
 	}
 	
 	private func verifyToken(_ token: String, completion: @escaping (String?, String?) -> Void) {
-		guard let url = URL(string: "https://micro.blog/account/verify") else { return }
+		guard let url = URL(string: "\(Constants.baseURL)/account/verify") else { return }
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
 		request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -167,7 +167,7 @@ struct MBMainView: View {
 	
 	private func fetcNotebooks() {
 		if let token = MBKeychain.shared.get(key: "Strata: Token") {
-			guard let url = URL(string: "https://micro.blog/notes/notebooks") else { return }
+			guard let url = URL(string: "\(Constants.baseURL)/notes/notebooks") else { return }
 			var request = URLRequest(url: url)
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 			
@@ -193,7 +193,7 @@ struct MBMainView: View {
 		if let notebook = self.selectedNotebook {
 			let notebook_id = notebook.id
 			if let token = MBKeychain.shared.get(key: "Strata: Token") {
-				guard let url = URL(string: "https://micro.blog/notes/notebooks/\(notebook_id)") else { return }
+				guard let url = URL(string: "\(Constants.baseURL)/notes/notebooks/\(notebook_id)") else { return }
 				var request = URLRequest(url: url)
 				request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 				
