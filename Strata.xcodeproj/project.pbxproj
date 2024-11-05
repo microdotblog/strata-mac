@@ -16,6 +16,7 @@
 		4B805A0B2CD7E0EF0092D9DB /* MBSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A0A2CD7E0EF0092D9DB /* MBSettingsView.swift */; };
 		4B805A0D2CD7E4FE0092D9DB /* MBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A0C2CD7E4FE0092D9DB /* MBDetailView.swift */; };
 		4B805A0F2CD7E53F0092D9DB /* JSONFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A0E2CD7E53F0092D9DB /* JSONFeed.swift */; };
+		4B805A112CDA78B90092D9DB /* MBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A102CDA78B90092D9DB /* MBUser.swift */; };
 		4BA0F2DE2C80C58800FFA0CC /* StrataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA0F2DD2C80C58800FFA0CC /* StrataApp.swift */; };
 		4BA0F2E02C80C58800FFA0CC /* MBMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA0F2DF2C80C58800FFA0CC /* MBMainView.swift */; };
 		4BA0F2E22C80C58900FFA0CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BA0F2E12C80C58900FFA0CC /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 		4B805A0A2CD7E0EF0092D9DB /* MBSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBSettingsView.swift; path = Source/MBSettingsView.swift; sourceTree = "<group>"; };
 		4B805A0C2CD7E4FE0092D9DB /* MBDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBDetailView.swift; path = Source/MBDetailView.swift; sourceTree = "<group>"; };
 		4B805A0E2CD7E53F0092D9DB /* JSONFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JSONFeed.swift; path = Source/JSONFeed.swift; sourceTree = "<group>"; };
+		4B805A102CDA78B90092D9DB /* MBUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBUser.swift; path = Source/MBUser.swift; sourceTree = "<group>"; };
 		4BA0F2DA2C80C58800FFA0CC /* Strata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Strata.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BA0F2DD2C80C58800FFA0CC /* StrataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrataApp.swift; sourceTree = "<group>"; };
 		4BA0F2DF2C80C58800FFA0CC /* MBMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBMainView.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				4B8059FD2CD71D8D0092D9DB /* MBKeychain.swift */,
 				4B8059FF2CD7243C0092D9DB /* MBNoteCrypto.swift */,
 				4B805A0E2CD7E53F0092D9DB /* JSONFeed.swift */,
+				4B805A102CDA78B90092D9DB /* MBUser.swift */,
 				4B805A012CD724ED0092D9DB /* MBNote.h */,
 				4B805A022CD724ED0092D9DB /* MBNote.m */,
 				4B805A032CD724ED0092D9DB /* MBNotebook.h */,
@@ -211,6 +214,7 @@
 				4B805A052CD724ED0092D9DB /* MBNote.m in Sources */,
 				4B805A0F2CD7E53F0092D9DB /* JSONFeed.swift in Sources */,
 				4B805A062CD724ED0092D9DB /* MBNotebook.m in Sources */,
+				4B805A112CDA78B90092D9DB /* MBUser.swift in Sources */,
 				4B805A002CD7243C0092D9DB /* MBNoteCrypto.swift in Sources */,
 				4B805A0B2CD7E0EF0092D9DB /* MBSettingsView.swift in Sources */,
 				4BA0F2E02C80C58800FFA0CC /* MBMainView.swift in Sources */,

@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct StrataApp: App {
 	var body: some Scene {
-		WindowGroup {
+		Window("Strata", id: "main") {
 			MBMainView()
 		}
 		.commands {
@@ -22,17 +22,18 @@ struct StrataApp: App {
 			}
 		}
 
-		WindowGroup {
-			MBSigninView()
-		}
-		.handlesExternalEvents(matching: ["signin"])
-		.commands {
-			CommandGroup(replacing: .newItem) {
-				Button("Sign In...") {
-					openSignInWindow()
-				}
-			}
-		}
+//		WindowGroup {
+//			MBSigninView()
+//		}
+//		.windowResizability(.contentSize)
+//		.handlesExternalEvents(matching: ["signin"])
+//		.commands {
+//			CommandGroup(replacing: .newItem) {
+//				Button("Sign In...") {
+//					openSignInWindow()
+//				}
+//			}
+//		}
 		
 		Settings {
 			MBSettingsView()

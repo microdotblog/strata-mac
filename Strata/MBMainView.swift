@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MBMainView: View {
+	@State private var isSigninSheet = true
 	@State private var notes: [FeedItem] = []
 	@State private var notebooks: [FeedItem] = []
 	@State private var searchText = ""
@@ -91,8 +92,53 @@ struct MBMainView: View {
 		.onReceive(NotificationCenter.default.publisher(for: .focusSearchField)) { _ in
 			isSearchFocused = true
 		}
+		.onOpenURL { url in
+			if let token = url.pathComponents.last {
+				print("Got token \(token)")
+				self.verifyToken(token) { new_token, error in
+					if let new_token = new_token {
+						print("New token \(new_token)")
+						if !MBKeychain.shared.save(key: "Strata: Token", value: new_token) {
+							print("Error saving new token")
+						}
+						self.fetcNotebooks()
+					}
+				}
+				self.isSigninSheet = false
+			}
+		}
+		.sheet(isPresented: $isSigninSheet) {
+			MBSigninView()
+		}
 	}
+	
+	private func verifyToken(_ token: String, completion: @escaping (String?, String?) -> Void) {
+		guard let url = URL(string: "https://micro.blog/account/verify") else { return }
+		var request = URLRequest(url: url)
+		request.httpMethod = "POST"
+		request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 
+		var components = URLComponents()
+		components.queryItems = [
+			URLQueryItem(name: "token", value: token),
+		]
+		request.httpBody = components.query?.data(using: .utf8)
+
+		URLSession.shared.dataTask(with: request) { data, response, error in
+			if let data = data {
+				do {
+					let u = try JSONDecoder().decode(MBUser.self, from: data)
+					DispatchQueue.main.async {
+						completion(u.token, nil)
+					}
+				}
+				catch {
+					print("Failed to decode JSON: \(error)")
+				}
+			}
+		}.resume()
+	}
+	
 	private func fetcNotebooks() {
 		if let token = MBKeychain.shared.get(key: "Strata: Token") {
 			guard let url = URL(string: "https://micro.blog/notes/notebooks") else { return }
