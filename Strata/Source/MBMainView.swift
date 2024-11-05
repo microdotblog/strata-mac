@@ -7,6 +7,19 @@
 
 import SwiftUI
 
+extension FeedItem {
+	func decryptedText() -> String {
+		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
+			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
+			let s = MBNote.decryptText(self.contentText, withKey: without_prefix)
+			return s
+		}
+		else {
+			return self.contentText
+		}
+	}
+}
+
 struct MBMainView: View {
 	@State private var isSigninSheet = true
 	@State private var isSignOutAlert = false
@@ -18,11 +31,10 @@ struct MBMainView: View {
 	@State private var selectedNotebook: FeedItem?
 
 	var currentNotes: [FeedItem] {
-		if searchText.isEmpty {
-			return notes
+		if searchText.count >= 3 {
+			return notes.filter { $0.decryptedText().localizedCaseInsensitiveContains(searchText) }
 		}
 		else {
-			// ...
 			return notes
 		}
 	}
