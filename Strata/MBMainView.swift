@@ -87,7 +87,10 @@ struct MBMainView: View {
 		}
 		.navigationTitle("")
 		.onAppear {
-			self.fetcNotebooks()
+			if self.hasToken() {
+				self.isSigninSheet = false
+				self.fetcNotebooks()
+			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .focusSearchField)) { _ in
 			isSearchFocused = true
@@ -109,6 +112,15 @@ struct MBMainView: View {
 		}
 		.sheet(isPresented: $isSigninSheet) {
 			MBSigninView()
+		}
+	}
+	
+	private func hasToken() -> Bool {
+		if let token = MBKeychain.shared.get(key: "Strata: Token") {
+			return true
+		}
+		else {
+			return false
 		}
 	}
 	
