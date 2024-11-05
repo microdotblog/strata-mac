@@ -86,7 +86,7 @@ struct MBSigninView: View {
 	}
 	
 	private func saveToken(_ token: String) {
-		if !MBKeychain.shared.save(key: "Strata: Token", value: token) {
+		if !MBKeychain.shared.save(key: Constants.Keychain.token, value: token) {
 			print("Error saving token")
 		}
 	}

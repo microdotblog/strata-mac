@@ -32,7 +32,7 @@ struct MBMainView: View {
 			List(currentNotes.indices, id: \.self) { index in
 				let note = currentNotes[index]
 				NavigationLink(destination: MBDetailView(note: note)) {
-					if let secret_key = MBKeychain.shared.get(key: "Strata: Secret") {
+					if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 						let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
 						let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
 						HStack {
@@ -105,7 +105,7 @@ struct MBMainView: View {
 				self.verifyToken(token) { new_token, error in
 					if let new_token = new_token {
 						print("New token \(new_token)")
-						if !MBKeychain.shared.save(key: "Strata: Token", value: new_token) {
+						if !MBKeychain.shared.save(key: Constants.Keychain.token, value: new_token) {
 							print("Error saving new token")
 						}
 						self.fetcNotebooks()
@@ -130,7 +130,7 @@ struct MBMainView: View {
 	}
 	
 	private func hasToken() -> Bool {
-		if let _ = MBKeychain.shared.get(key: "Strata: Token") {
+		if let _ = MBKeychain.shared.get(key: Constants.Keychain.token) {
 			return true
 		}
 		else {
@@ -166,7 +166,7 @@ struct MBMainView: View {
 	}
 	
 	private func fetcNotebooks() {
-		if let token = MBKeychain.shared.get(key: "Strata: Token") {
+		if let token = MBKeychain.shared.get(key: Constants.Keychain.token) {
 			guard let url = URL(string: "\(Constants.baseURL)/notes/notebooks") else { return }
 			var request = URLRequest(url: url)
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -192,7 +192,7 @@ struct MBMainView: View {
 	private func fetchNotes() {
 		if let notebook = self.selectedNotebook {
 			let notebook_id = notebook.id
-			if let token = MBKeychain.shared.get(key: "Strata: Token") {
+			if let token = MBKeychain.shared.get(key: Constants.Keychain.token) {
 				guard let url = URL(string: "\(Constants.baseURL)/notes/notebooks/\(notebook_id)") else { return }
 				var request = URLRequest(url: url)
 				request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -222,10 +222,10 @@ struct MBMainView: View {
 	}
 	
 	private func finishSignOut() {
-		if !MBKeychain.shared.delete(key: "Strata: Token") {
+		if !MBKeychain.shared.delete(key: Constants.Keychain.token) {
 			print("Error removing token from keychain.")
 		}
-		if !MBKeychain.shared.delete(key: "Strata: Secret") {
+		if !MBKeychain.shared.delete(key: Constants.Keychain.secret) {
 			print("Error removing secret key from keychain.")
 		}
 

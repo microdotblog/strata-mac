@@ -14,4 +14,9 @@ extension Notification.Name {
 
 struct Constants {
 	static let baseURL = "https://micro.blog"
+
+	struct Keychain {
+		static let token = "Strata: Token"
+		static let secret = "Strata: Secret"
+	}
 }

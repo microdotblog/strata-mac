@@ -13,7 +13,7 @@ struct MBDetailView: View {
 
 	init(note: FeedItem) {
 		self.note = note
-		if let secret_key = MBKeychain.shared.get(key: "Strata: Secret") {
+		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
 			let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
 			self.text = s
@@ -21,7 +21,7 @@ struct MBDetailView: View {
 	}
 	
 	var body: some View {
-		if let secret_key = MBKeychain.shared.get(key: "Strata: Secret") {
+		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
 			let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
 			MBWebView(s)

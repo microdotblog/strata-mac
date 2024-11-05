@@ -40,7 +40,7 @@ struct MBSettingsView: View {
 				Spacer()
 				Button(action: {
 					print("Secret: \(secretKey)")
-					if !MBKeychain.shared.save(key: "Strata: Secret", value: secretKey) {
+					if !MBKeychain.shared.save(key: Constants.Keychain.secret, value: secretKey) {
 						print("Error saving secret key")
 					}
 				}) {
@@ -52,7 +52,7 @@ struct MBSettingsView: View {
 		.frame(width: 400)
 		.padding()
 		.onAppear() {
-			if let secret_key = MBKeychain.shared.get(key: "Strata: Secret") {
+			if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 				oldSecretKey = secret_key
 				secretKey = secret_key
 			}
