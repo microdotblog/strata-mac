@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
 	static let focusSearchField = Notification.Name("focusSearchField")
+	static let signOut = Notification.Name("signOut")
 }

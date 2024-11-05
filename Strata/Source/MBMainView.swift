@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MBMainView: View {
 	@State private var isSigninSheet = true
+	@State private var isSignOutAlert = false
 	@State private var notes: [FeedItem] = []
 	@State private var notebooks: [FeedItem] = []
 	@State private var searchText = ""
@@ -95,6 +96,9 @@ struct MBMainView: View {
 		.onReceive(NotificationCenter.default.publisher(for: .focusSearchField)) { _ in
 			isSearchFocused = true
 		}
+		.onReceive(NotificationCenter.default.publisher(for: .signOut)) { _ in
+			self.promptSignOut()
+		}
 		.onOpenURL { url in
 			if let token = url.pathComponents.last {
 				print("Got token \(token)")
@@ -113,10 +117,20 @@ struct MBMainView: View {
 		.sheet(isPresented: $isSigninSheet) {
 			MBSigninView()
 		}
+		.alert(isPresented: $isSignOutAlert) {
+			Alert(
+				title: Text("Sign Out"),
+				message: Text("Are you sure you want to sign out? This will also clear the saved secret key from this Mac."),
+				primaryButton: .default(Text("Sign Out"), action: {
+					self.finishSignOut()
+				}),
+				secondaryButton: .cancel(Text("Cancel"))
+			)
+		}
 	}
 	
 	private func hasToken() -> Bool {
-		if let token = MBKeychain.shared.get(key: "Strata: Token") {
+		if let _ = MBKeychain.shared.get(key: "Strata: Token") {
 			return true
 		}
 		else {
@@ -201,5 +215,23 @@ struct MBMainView: View {
 	}
 	
 	private func newNote() {
+	}
+	
+	private func promptSignOut() {
+		self.isSignOutAlert = true
+	}
+	
+	private func finishSignOut() {
+		if !MBKeychain.shared.delete(key: "Strata: Token") {
+			print("Error removing token from keychain.")
+		}
+		if !MBKeychain.shared.delete(key: "Strata: Secret") {
+			print("Error removing secret key from keychain.")
+		}
+
+		self.notes = []
+		self.notebooks = []
+		self.isSigninSheet = true
+		self.isSignOutAlert = false
 	}
 }

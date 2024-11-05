@@ -14,6 +14,21 @@ struct StrataApp: App {
 			MBMainView()
 		}
 		.commands {
+			CommandGroup(replacing: .newItem) {
+				Button("New Note") {
+					self.makeNewNote()
+				}
+				.keyboardShortcut("N", modifiers: .command)
+			}
+
+			CommandGroup(after: CommandGroupPlacement.saveItem) {
+				Divider()
+				
+				Button("Sign Out") {
+					self.signOut()
+				}
+			}
+			
 			CommandGroup(replacing: .textEditing) {
 				Button("Find") {
 					focusSearchField()
@@ -48,5 +63,12 @@ struct StrataApp: App {
 
 	func focusSearchField() {
 		NotificationCenter.default.post(name: .focusSearchField, object: nil)
+	}
+	
+	func makeNewNote() {
+	}
+	
+	func signOut() {
+		NotificationCenter.default.post(name: .signOut, object: nil)
 	}
 }
