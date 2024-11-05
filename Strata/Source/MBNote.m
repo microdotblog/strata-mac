@@ -8,7 +8,7 @@
 
 #import "MBNote.h"
 
-#import "Micro_blog-Swift.h"
+#import "Strata-Swift.h"
 
 @implementation MBNote
 
