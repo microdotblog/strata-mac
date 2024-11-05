@@ -9,10 +9,12 @@ import SwiftUI
 
 struct MBDetailView: View {
 	let note: FeedItem
+	let notebook: FeedItem
 	var text: String = ""
 
-	init(note: FeedItem) {
+	init(note: FeedItem, notebook: FeedItem) {
 		self.note = note
+		self.notebook = notebook
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
 			let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
@@ -21,10 +23,6 @@ struct MBDetailView: View {
 	}
 	
 	var body: some View {
-		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
-			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
-			let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
-			MBWebView(s)
-		}
+		MBWebView(self.text, note: self.note, notebook: notebook)
 	}
 }

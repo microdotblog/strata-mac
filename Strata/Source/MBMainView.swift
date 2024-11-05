@@ -31,23 +31,25 @@ struct MBMainView: View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
 			List(currentNotes.indices, id: \.self) { index in
 				let note = currentNotes[index]
-				NavigationLink(destination: MBDetailView(note: note)) {
-					if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
-						let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
-						let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
-						HStack {
-							Text(s)
-								.lineLimit(3)
-								.padding(.horizontal, 5)
-								.padding(.vertical, 14)
-							Spacer() // pushes the text to the left, taking up full width
+				if let notebook = self.selectedNotebook {
+					NavigationLink(destination: MBDetailView(note: note, notebook: notebook)) {
+						if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
+							let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
+							let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
+							HStack {
+								Text(s)
+									.lineLimit(3)
+									.padding(.horizontal, 5)
+									.padding(.vertical, 14)
+								Spacer() // pushes the text to the left, taking up full width
+							}
 						}
 					}
+					.listRowInsets(EdgeInsets())
+					.listRowSeparator(.hidden)
+					.padding(0)
+					.listRowBackground(index % 2 == 0 ? Color.gray.opacity(0.1) : Color.clear)
 				}
-				.listRowInsets(EdgeInsets())
-				.listRowSeparator(.hidden)
-				.padding(0)
-				.listRowBackground(index % 2 == 0 ? Color.gray.opacity(0.1) : Color.clear)
 			}
 			.frame(minWidth: 200)
 			.listStyle(PlainListStyle())
