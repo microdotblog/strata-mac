@@ -10,10 +10,18 @@ import SwiftUI
 struct MBSettingsView: View {
 	@State private var secretKey: String = ""
 	@State private var oldSecretKey: String = ""
+	@State private var isFinishedSave = false
+	@State private var isCloudChecked = true
 
 	var body: some View {
 		VStack {
 			Text("Notes in Micro.blog are encrypted. To sync notes across devices, you will need to save a secret key so the notes can be decrypted later. If you lose your key, you will lose access to your notes too.")
+				.lineLimit(3)
+			
+			HStack {
+				Toggle("Save secret key to iCloud", isOn: $isCloudChecked)
+				Spacer()
+			}.padding(.vertical, 7)
 			
 			ZStack {
 				Rectangle()
@@ -38,13 +46,31 @@ struct MBSettingsView: View {
 			
 			HStack {
 				Spacer()
+				
+				if isFinishedSave {
+					Image(systemName: "checkmark.circle.fill")
+						.frame(minHeight: 20)
+				}
+				
+				Button(action: {
+					self.secretKey = ""
+					self.oldSecretKey = ""
+					if !MBKeychain.shared.delete(key: Constants.Keychain.secret) {
+						print("Error removing secret key")
+					}
+				}) {
+					Text("Remove Key").frame(minWidth: 55)
+				}
+				.disabled(secretKey.isEmpty)
+
 				Button(action: {
 					print("Secret: \(secretKey)")
+					self.isFinishedSave = true
 					if !MBKeychain.shared.save(key: Constants.Keychain.secret, value: secretKey) {
 						print("Error saving secret key")
 					}
 				}) {
-					Text("Save").frame(minWidth: 50)
+					Text("Save").frame(minWidth: 55)
 				}
 				.disabled((secretKey == oldSecretKey) || (secretKey.isEmpty))
 			}
@@ -52,6 +78,7 @@ struct MBSettingsView: View {
 		.frame(width: 400)
 		.padding()
 		.onAppear() {
+			self.isFinishedSave = false
 			if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 				oldSecretKey = secret_key
 				secretKey = secret_key
