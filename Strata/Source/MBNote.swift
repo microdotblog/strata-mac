@@ -28,4 +28,21 @@ struct MBNote: BlackbirdModel {
 		self.isSharing = false
 		self.isUnsharing = false		
 	}
+	
+	mutating func setEncrypted(_ encrypted: String) {
+		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
+			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
+			self.text = MBNoteUtils.decryptText(encrypted, withKey: without_prefix)
+		}
+	}
+	
+	static func find_or_create(id: Int, database: Blackbird.Database) async throws -> MBNote? {
+		var note = try await MBNote.read(from: database, id: id)
+		if note == nil {
+			note = MBNote()
+			note?.id = id
+		}
+		
+		return note
+	}
 }

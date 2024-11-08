@@ -221,13 +221,12 @@ struct MBMainView: View {
 							
 							Task {
 								if let path = StrataDatabase.getPath() {
-									print("path \(path)")
 									let db = try Blackbird.Database(path: path)
 									for item in feed.items {
-										var n = MBNote()
-										n.id = item.id
-										n.text = item.contentText
-										try await n.write(to: db)
+										if var n = try await MBNote.find_or_create(id: item.id, database: db) {
+											n.setEncrypted(item.contentText)
+											try await n.write(to: db)
+										}
 									}
 								}
 							}
