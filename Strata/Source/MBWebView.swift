@@ -90,6 +90,11 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 	}
 	
 	func saveNote(plainText: String) {
+		// to avoid bugs, for now don't let note be cleared
+		if plainText.count == 0 {
+			return
+		}
+
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
 			let s = MBNoteUtils.encryptText(plainText, withKey: without_prefix)
