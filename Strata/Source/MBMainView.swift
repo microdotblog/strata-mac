@@ -8,31 +8,21 @@
 import SwiftUI
 
 extension FeedItem {
-	func decryptedText() -> String {
-		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
-			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
-			let s = MBNoteUtils.decryptText(self.contentText, withKey: without_prefix)
-			return s
-		}
-		else {
-			return self.contentText
-		}
-	}
 }
 
 struct MBMainView: View {
 	@State private var isSigninSheet = true
 	@State private var isSignOutAlert = false
-	@State private var notes: [FeedItem] = []
+	@State private var notes: [MBNote] = []
 	@State private var notebooks: [FeedItem] = []
 	@State private var searchText = ""
 	@FocusState private var isSearchFocused: Bool
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 	@State private var selectedNotebook: FeedItem?
 
-	var currentNotes: [FeedItem] {
+	var currentNotes: [MBNote] {
 		if searchText.count >= 3 {
-			return notes.filter { $0.decryptedText().localizedCaseInsensitiveContains(searchText) }
+			return notes.filter { $0.text.localizedCaseInsensitiveContains(searchText) }
 		}
 		else {
 			return notes
@@ -41,31 +31,26 @@ struct MBMainView: View {
 
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
-			List(currentNotes.indices, id: \.self) { index in
-				let note = currentNotes[index]
+			List(self.currentNotes) { note in
 				if let notebook = self.selectedNotebook {
 					NavigationLink(destination: MBDetailView(note: note, notebook: notebook)) {
-						if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
-							let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
-							let s = MBNoteUtils.decryptText(note.contentText, withKey: without_prefix)
-							HStack {
-								Text(s)
-									.lineLimit(3)
-									.padding(.horizontal, 5)
-									.padding(.vertical, 14)
-								Spacer() // pushes the text to the left, taking up full width
-							}
+						HStack {
+							Text(note.text)
+								.lineLimit(3)
+								.padding(.horizontal, 5)
+								.padding(.vertical, 14)
+							Spacer() // pushes the text to the left, taking up full width
 						}
 					}
 					.listRowInsets(EdgeInsets())
 					.listRowSeparator(.hidden)
 					.padding(0)
-					.listRowBackground(index % 2 == 0 ? Color.gray.opacity(0.1) : Color.clear)
 				}
 			}
 			.frame(minWidth: 200)
 			.listStyle(PlainListStyle())
 			.navigationSplitViewColumnWidth(min: 100, ideal: 200)
+			.alternatingRowBackgrounds()
 		}
 		detail: {
 		}
@@ -215,18 +200,23 @@ struct MBMainView: View {
 					if let data = data {
 						do {
 							let feed = try JSONDecoder().decode(JSONFeed.self, from: data)
-							DispatchQueue.main.async {
-								self.notes = feed.items
-							}
 							
 							Task {
 								if let path = StrataDatabase.getPath() {
 									let db = try Blackbird.Database(path: path)
+									var notes: [MBNote] = []
 									for item in feed.items {
 										if var n = try await MBNote.find_or_create(id: item.id, database: db) {
-											n.setEncrypted(item.contentText)
-											try await n.write(to: db)
+											if n.text.count == 0 {
+												n.setEncrypted(item.contentText)
+												try await n.write(to: db)
+											}
+											notes.append(n)
 										}
+									}
+
+									await MainActor.run { [notes] in
+										self.notes = notes
 									}
 								}
 							}

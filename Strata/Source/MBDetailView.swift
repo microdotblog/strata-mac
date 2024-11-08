@@ -8,21 +8,15 @@
 import SwiftUI
 
 struct MBDetailView: View {
-	let note: FeedItem
+	let note: MBNote
 	let notebook: FeedItem
-	var text: String = ""
 
-	init(note: FeedItem, notebook: FeedItem) {
+	init(note: MBNote, notebook: FeedItem) {
 		self.note = note
 		self.notebook = notebook
-		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
-			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
-			let s = MBNoteUtils.decryptText(note.contentText, withKey: without_prefix)
-			self.text = s
-		}
 	}
 	
 	var body: some View {
-		MBWebView(self.text, note: self.note, notebook: notebook)
+		MBWebView(self.note.text, note: self.note, notebook: notebook)
 	}
 }

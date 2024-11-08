@@ -12,10 +12,10 @@ struct MBWebView: NSViewRepresentable {
 	let webView: WKWebView
 	let webDelegate: MBWebDelegate
 	let text: String
-	let note: FeedItem
+	let note: MBNote
 	let notebook: FeedItem
 	
-	init(_ text: String, note: FeedItem, notebook: FeedItem) {
+	init(_ text: String, note: MBNote, notebook: FeedItem) {
 		let config = WKWebViewConfiguration()
 		self.webView = WKWebView(frame: .zero, configuration: config)
 		self.webDelegate = MBWebDelegate(noteID: String(note.id), notebookID: String(notebook.id))
