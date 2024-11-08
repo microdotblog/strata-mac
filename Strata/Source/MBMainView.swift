@@ -11,7 +11,7 @@ extension FeedItem {
 	func decryptedText() -> String {
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
-			let s = MBNote.decryptText(self.contentText, withKey: without_prefix)
+			let s = MBNoteUtils.decryptText(self.contentText, withKey: without_prefix)
 			return s
 		}
 		else {
@@ -47,7 +47,7 @@ struct MBMainView: View {
 					NavigationLink(destination: MBDetailView(note: note, notebook: notebook)) {
 						if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 							let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
-							let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
+							let s = MBNoteUtils.decryptText(note.contentText, withKey: without_prefix)
 							HStack {
 								Text(s)
 									.lineLimit(3)
@@ -217,6 +217,19 @@ struct MBMainView: View {
 							let feed = try JSONDecoder().decode(JSONFeed.self, from: data)
 							DispatchQueue.main.async {
 								self.notes = feed.items
+							}
+							
+							Task {
+								if let path = StrataDatabase.getPath() {
+									print("path \(path)")
+									let db = try Blackbird.Database(path: path)
+									for item in feed.items {
+										var n = MBNote()
+										n.id = item.id
+										n.text = item.contentText
+										try await n.write(to: db)
+									}
+								}
 							}
 						}
 						catch {

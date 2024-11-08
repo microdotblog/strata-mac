@@ -17,7 +17,7 @@ struct MBDetailView: View {
 		self.notebook = notebook
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
-			let s = MBNote.decryptText(note.contentText, withKey: without_prefix)
+			let s = MBNoteUtils.decryptText(note.contentText, withKey: without_prefix)
 			self.text = s
 		}
 	}

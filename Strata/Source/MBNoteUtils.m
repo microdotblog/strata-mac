@@ -1,34 +1,16 @@
 //
-//  MBNote.m
+//  MBNoteUtils.m
 //  Micro.blog
 //
 //  Created by Manton Reece on 12/11/23.
 //  Copyright © 2023 Micro.blog. All rights reserved.
 //
 
-#import "MBNote.h"
+#import "MBNoteUtils.h"
 
 #import "Strata-Swift.h"
 
-@implementation MBNote
-
-- (id) copyWithZone:(NSZone *)zone
-{
-	MBNote* new_note = [[MBNote allocWithZone:zone] init];
-
-	new_note.noteID = [self.noteID copyWithZone:zone];
-	new_note.notebookID = [self.notebookID copyWithZone:zone];
-	new_note.text = [self.text copyWithZone:zone];
-	new_note.sharedURL = [self.sharedURL copyWithZone:zone];
-	new_note.isEncrypted = self.isEncrypted;
-	new_note.isShared = self.isShared;
-	new_note.isSharing = self.isSharing;
-	new_note.isUnsharing = self.isUnsharing;
-	new_note.createdAt = [self.createdAt copyWithZone:zone];
-	new_note.updatedAt = [self.updatedAt copyWithZone:zone];
-	
-	return new_note;
-}
+@implementation MBNoteUtils
 
 + (NSString *) encryptText:(NSString *)text withKey:(NSString *)key
 {

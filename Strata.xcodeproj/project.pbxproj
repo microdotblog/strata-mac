@@ -10,13 +10,31 @@
 		4B8059FB2CD6DC750092D9DB /* MBSigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8059FA2CD6DC750092D9DB /* MBSigninView.swift */; };
 		4B8059FE2CD71D8D0092D9DB /* MBKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8059FD2CD71D8D0092D9DB /* MBKeychain.swift */; };
 		4B805A002CD7243C0092D9DB /* MBNoteCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8059FF2CD7243C0092D9DB /* MBNoteCrypto.swift */; };
-		4B805A052CD724ED0092D9DB /* MBNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A022CD724ED0092D9DB /* MBNote.m */; };
+		4B805A052CD724ED0092D9DB /* MBNoteUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A022CD724ED0092D9DB /* MBNoteUtils.m */; };
 		4B805A062CD724ED0092D9DB /* MBNotebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A042CD724ED0092D9DB /* MBNotebook.m */; };
 		4B805A092CD7CE700092D9DB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A082CD7CE700092D9DB /* Constants.swift */; };
 		4B805A0B2CD7E0EF0092D9DB /* MBSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A0A2CD7E0EF0092D9DB /* MBSettingsView.swift */; };
 		4B805A0D2CD7E4FE0092D9DB /* MBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A0C2CD7E4FE0092D9DB /* MBDetailView.swift */; };
 		4B805A0F2CD7E53F0092D9DB /* JSONFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A0E2CD7E53F0092D9DB /* JSONFeed.swift */; };
 		4B805A112CDA78B90092D9DB /* MBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A102CDA78B90092D9DB /* MBUser.swift */; };
+		4B805A462CDD87190092D9DB /* BlackbirdObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A402CDD87190092D9DB /* BlackbirdObservation.swift */; };
+		4B805A472CDD87190092D9DB /* BlackbirdSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A442CDD87190092D9DB /* BlackbirdSwiftUI.swift */; };
+		4B805A482CDD87190092D9DB /* BlackbirdCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A392CDD87190092D9DB /* BlackbirdCodingKey.swift */; };
+		4B805A492CDD87190092D9DB /* BlackbirdModelSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A3E2CDD87190092D9DB /* BlackbirdModelSearch.swift */; };
+		4B805A4A2CDD87190092D9DB /* BlackbirdColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A3A2CDD87190092D9DB /* BlackbirdColumn.swift */; };
+		4B805A4B2CDD87190092D9DB /* Blackbird.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A352CDD87190092D9DB /* Blackbird.swift */; };
+		4B805A4C2CDD87190092D9DB /* BlackbirdSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A432CDD87190092D9DB /* BlackbirdSchema.swift */; };
+		4B805A4D2CDD87190092D9DB /* BlackbirdRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A422CDD87190092D9DB /* BlackbirdRow.swift */; };
+		4B805A4E2CDD87190092D9DB /* BlackbirdChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A372CDD87190092D9DB /* BlackbirdChanges.swift */; };
+		4B805A4F2CDD87190092D9DB /* BlackbirdCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A382CDD87190092D9DB /* BlackbirdCodable.swift */; };
+		4B805A502CDD87190092D9DB /* BlackbirdModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A3D2CDD87190092D9DB /* BlackbirdModel.swift */; };
+		4B805A512CDD87190092D9DB /* BlackbirdModelStructuredQuerying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A3F2CDD87190092D9DB /* BlackbirdModelStructuredQuerying.swift */; };
+		4B805A522CDD87190092D9DB /* BlackbirdDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A3C2CDD87190092D9DB /* BlackbirdDatabase.swift */; };
+		4B805A542CDD87190092D9DB /* BlackbirdCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A362CDD87190092D9DB /* BlackbirdCache.swift */; };
+		4B805A552CDD87190092D9DB /* BlackbirdPerformanceLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A412CDD87190092D9DB /* BlackbirdPerformanceLogger.swift */; };
+		4B805A562CDD87190092D9DB /* BlackbirdColumnTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A3B2CDD87190092D9DB /* BlackbirdColumnTypes.swift */; };
+		4B805A582CDD886C0092D9DB /* MBNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A572CDD886C0092D9DB /* MBNote.swift */; };
+		4B805A5A2CDD8D130092D9DB /* StrataDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B805A592CDD8D130092D9DB /* StrataDatabase.swift */; };
 		4BA0F2DE2C80C58800FFA0CC /* StrataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA0F2DD2C80C58800FFA0CC /* StrataApp.swift */; };
 		4BA0F2E02C80C58800FFA0CC /* MBMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA0F2DF2C80C58800FFA0CC /* MBMainView.swift */; };
 		4BA0F2E22C80C58900FFA0CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BA0F2E12C80C58900FFA0CC /* Assets.xcassets */; };
@@ -34,8 +52,8 @@
 		4B8059FC2CD6DD9F0092D9DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4B8059FD2CD71D8D0092D9DB /* MBKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBKeychain.swift; path = Source/MBKeychain.swift; sourceTree = "<group>"; };
 		4B8059FF2CD7243C0092D9DB /* MBNoteCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBNoteCrypto.swift; path = Source/MBNoteCrypto.swift; sourceTree = "<group>"; };
-		4B805A012CD724ED0092D9DB /* MBNote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MBNote.h; path = Source/MBNote.h; sourceTree = "<group>"; };
-		4B805A022CD724ED0092D9DB /* MBNote.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MBNote.m; path = Source/MBNote.m; sourceTree = "<group>"; };
+		4B805A012CD724ED0092D9DB /* MBNoteUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MBNoteUtils.h; path = Source/MBNoteUtils.h; sourceTree = "<group>"; };
+		4B805A022CD724ED0092D9DB /* MBNoteUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MBNoteUtils.m; path = Source/MBNoteUtils.m; sourceTree = "<group>"; };
 		4B805A032CD724ED0092D9DB /* MBNotebook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MBNotebook.h; path = Source/MBNotebook.h; sourceTree = "<group>"; };
 		4B805A042CD724ED0092D9DB /* MBNotebook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MBNotebook.m; path = Source/MBNotebook.m; sourceTree = "<group>"; };
 		4B805A072CD724EF0092D9DB /* Strata-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Strata-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -44,6 +62,24 @@
 		4B805A0C2CD7E4FE0092D9DB /* MBDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBDetailView.swift; path = Source/MBDetailView.swift; sourceTree = "<group>"; };
 		4B805A0E2CD7E53F0092D9DB /* JSONFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JSONFeed.swift; path = Source/JSONFeed.swift; sourceTree = "<group>"; };
 		4B805A102CDA78B90092D9DB /* MBUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBUser.swift; path = Source/MBUser.swift; sourceTree = "<group>"; };
+		4B805A352CDD87190092D9DB /* Blackbird.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blackbird.swift; sourceTree = "<group>"; };
+		4B805A362CDD87190092D9DB /* BlackbirdCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdCache.swift; sourceTree = "<group>"; };
+		4B805A372CDD87190092D9DB /* BlackbirdChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdChanges.swift; sourceTree = "<group>"; };
+		4B805A382CDD87190092D9DB /* BlackbirdCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdCodable.swift; sourceTree = "<group>"; };
+		4B805A392CDD87190092D9DB /* BlackbirdCodingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdCodingKey.swift; sourceTree = "<group>"; };
+		4B805A3A2CDD87190092D9DB /* BlackbirdColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdColumn.swift; sourceTree = "<group>"; };
+		4B805A3B2CDD87190092D9DB /* BlackbirdColumnTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdColumnTypes.swift; sourceTree = "<group>"; };
+		4B805A3C2CDD87190092D9DB /* BlackbirdDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdDatabase.swift; sourceTree = "<group>"; };
+		4B805A3D2CDD87190092D9DB /* BlackbirdModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdModel.swift; sourceTree = "<group>"; };
+		4B805A3E2CDD87190092D9DB /* BlackbirdModelSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdModelSearch.swift; sourceTree = "<group>"; };
+		4B805A3F2CDD87190092D9DB /* BlackbirdModelStructuredQuerying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdModelStructuredQuerying.swift; sourceTree = "<group>"; };
+		4B805A402CDD87190092D9DB /* BlackbirdObservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdObservation.swift; sourceTree = "<group>"; };
+		4B805A412CDD87190092D9DB /* BlackbirdPerformanceLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdPerformanceLogger.swift; sourceTree = "<group>"; };
+		4B805A422CDD87190092D9DB /* BlackbirdRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdRow.swift; sourceTree = "<group>"; };
+		4B805A432CDD87190092D9DB /* BlackbirdSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdSchema.swift; sourceTree = "<group>"; };
+		4B805A442CDD87190092D9DB /* BlackbirdSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackbirdSwiftUI.swift; sourceTree = "<group>"; };
+		4B805A572CDD886C0092D9DB /* MBNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBNote.swift; path = Source/MBNote.swift; sourceTree = "<group>"; };
+		4B805A592CDD8D130092D9DB /* StrataDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StrataDatabase.swift; path = Source/StrataDatabase.swift; sourceTree = "<group>"; };
 		4BA0F2DA2C80C58800FFA0CC /* Strata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Strata.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BA0F2DD2C80C58800FFA0CC /* StrataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StrataApp.swift; path = Source/StrataApp.swift; sourceTree = "<group>"; };
 		4BA0F2DF2C80C58800FFA0CC /* MBMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBMainView.swift; path = Source/MBMainView.swift; sourceTree = "<group>"; };
@@ -70,10 +106,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B805A452CDD87190092D9DB /* Blackbird */ = {
+			isa = PBXGroup;
+			children = (
+				4B805A352CDD87190092D9DB /* Blackbird.swift */,
+				4B805A362CDD87190092D9DB /* BlackbirdCache.swift */,
+				4B805A372CDD87190092D9DB /* BlackbirdChanges.swift */,
+				4B805A382CDD87190092D9DB /* BlackbirdCodable.swift */,
+				4B805A392CDD87190092D9DB /* BlackbirdCodingKey.swift */,
+				4B805A3A2CDD87190092D9DB /* BlackbirdColumn.swift */,
+				4B805A3B2CDD87190092D9DB /* BlackbirdColumnTypes.swift */,
+				4B805A3C2CDD87190092D9DB /* BlackbirdDatabase.swift */,
+				4B805A3D2CDD87190092D9DB /* BlackbirdModel.swift */,
+				4B805A3E2CDD87190092D9DB /* BlackbirdModelSearch.swift */,
+				4B805A3F2CDD87190092D9DB /* BlackbirdModelStructuredQuerying.swift */,
+				4B805A402CDD87190092D9DB /* BlackbirdObservation.swift */,
+				4B805A412CDD87190092D9DB /* BlackbirdPerformanceLogger.swift */,
+				4B805A422CDD87190092D9DB /* BlackbirdRow.swift */,
+				4B805A432CDD87190092D9DB /* BlackbirdSchema.swift */,
+				4B805A442CDD87190092D9DB /* BlackbirdSwiftUI.swift */,
+			);
+			name = Blackbird;
+			path = Blackbird/Sources/Blackbird;
+			sourceTree = "<group>";
+		};
 		4BA0F2D12C80C58800FFA0CC = {
 			isa = PBXGroup;
 			children = (
 				4BA0F2DC2C80C58800FFA0CC /* Strata */,
+				4B805A452CDD87190092D9DB /* Blackbird */,
 				4BA0F2DB2C80C58800FFA0CC /* Products */,
 				4BA0F2F02C80CEF700FFA0CC /* Frameworks */,
 			);
@@ -93,6 +154,7 @@
 				4B8059FC2CD6DD9F0092D9DB /* Info.plist */,
 				4B805A082CD7CE700092D9DB /* Constants.swift */,
 				4BA0F2DD2C80C58800FFA0CC /* StrataApp.swift */,
+				4B805A592CDD8D130092D9DB /* StrataDatabase.swift */,
 				4BA0F2DF2C80C58800FFA0CC /* MBMainView.swift */,
 				4B805A0C2CD7E4FE0092D9DB /* MBDetailView.swift */,
 				4B8059FA2CD6DC750092D9DB /* MBSigninView.swift */,
@@ -102,8 +164,9 @@
 				4B8059FF2CD7243C0092D9DB /* MBNoteCrypto.swift */,
 				4B805A0E2CD7E53F0092D9DB /* JSONFeed.swift */,
 				4B805A102CDA78B90092D9DB /* MBUser.swift */,
-				4B805A012CD724ED0092D9DB /* MBNote.h */,
-				4B805A022CD724ED0092D9DB /* MBNote.m */,
+				4B805A572CDD886C0092D9DB /* MBNote.swift */,
+				4B805A012CD724ED0092D9DB /* MBNoteUtils.h */,
+				4B805A022CD724ED0092D9DB /* MBNoteUtils.m */,
 				4B805A032CD724ED0092D9DB /* MBNotebook.h */,
 				4B805A042CD724ED0092D9DB /* MBNotebook.m */,
 				4BA0F2EE2C80CE5000FFA0CC /* micro_editor.html */,
@@ -211,14 +274,32 @@
 			files = (
 				4B805A0D2CD7E4FE0092D9DB /* MBDetailView.swift in Sources */,
 				4BA0F2ED2C80C9F600FFA0CC /* MBWebView.swift in Sources */,
-				4B805A052CD724ED0092D9DB /* MBNote.m in Sources */,
+				4B805A052CD724ED0092D9DB /* MBNoteUtils.m in Sources */,
 				4B805A0F2CD7E53F0092D9DB /* JSONFeed.swift in Sources */,
 				4B805A062CD724ED0092D9DB /* MBNotebook.m in Sources */,
+				4B805A582CDD886C0092D9DB /* MBNote.swift in Sources */,
 				4B805A112CDA78B90092D9DB /* MBUser.swift in Sources */,
 				4B805A002CD7243C0092D9DB /* MBNoteCrypto.swift in Sources */,
 				4B805A0B2CD7E0EF0092D9DB /* MBSettingsView.swift in Sources */,
 				4BA0F2E02C80C58800FFA0CC /* MBMainView.swift in Sources */,
 				4B8059FE2CD71D8D0092D9DB /* MBKeychain.swift in Sources */,
+				4B805A462CDD87190092D9DB /* BlackbirdObservation.swift in Sources */,
+				4B805A472CDD87190092D9DB /* BlackbirdSwiftUI.swift in Sources */,
+				4B805A482CDD87190092D9DB /* BlackbirdCodingKey.swift in Sources */,
+				4B805A492CDD87190092D9DB /* BlackbirdModelSearch.swift in Sources */,
+				4B805A4A2CDD87190092D9DB /* BlackbirdColumn.swift in Sources */,
+				4B805A4B2CDD87190092D9DB /* Blackbird.swift in Sources */,
+				4B805A4C2CDD87190092D9DB /* BlackbirdSchema.swift in Sources */,
+				4B805A4D2CDD87190092D9DB /* BlackbirdRow.swift in Sources */,
+				4B805A4E2CDD87190092D9DB /* BlackbirdChanges.swift in Sources */,
+				4B805A4F2CDD87190092D9DB /* BlackbirdCodable.swift in Sources */,
+				4B805A5A2CDD8D130092D9DB /* StrataDatabase.swift in Sources */,
+				4B805A502CDD87190092D9DB /* BlackbirdModel.swift in Sources */,
+				4B805A512CDD87190092D9DB /* BlackbirdModelStructuredQuerying.swift in Sources */,
+				4B805A522CDD87190092D9DB /* BlackbirdDatabase.swift in Sources */,
+				4B805A542CDD87190092D9DB /* BlackbirdCache.swift in Sources */,
+				4B805A552CDD87190092D9DB /* BlackbirdPerformanceLogger.swift in Sources */,
+				4B805A562CDD87190092D9DB /* BlackbirdColumnTypes.swift in Sources */,
 				4BA0F2DE2C80C58800FFA0CC /* StrataApp.swift in Sources */,
 				4B8059FB2CD6DC750092D9DB /* MBSigninView.swift in Sources */,
 				4B805A092CD7CE700092D9DB /* Constants.swift in Sources */,
