@@ -128,7 +128,7 @@ struct MBMainView: View {
 		var new_notes: [MBNote] = []
 		if query.count >= 3 {
 			if let db = StrataDatabase.shared.getDatabase() {
-				new_notes = try await MBNote.read(from: db, sqlWhere: "text LIKE ?", "%\(query)%")
+				new_notes = try await MBNote.read(from: db, sqlWhere: "notebookID = ? text LIKE ? ORDER BY updatedAt DESC", self.selectedNotebook?.id, "%\(query)%")
 			}
 		}
 		else {
@@ -142,7 +142,7 @@ struct MBMainView: View {
 	
 	func allNotes() async throws -> [MBNote] {
 		if let db = StrataDatabase.shared.getDatabase() {
-			let new_notes = try await MBNote.read(from: db)
+			let new_notes = try await MBNote.read(from: db, matching: \.$notebookID == self.selectedNotebook?.id, orderBy: .ascending(\.$updatedAt))
 			return new_notes
 		}
 		else {
@@ -231,8 +231,9 @@ struct MBMainView: View {
 										if var n = try await MBNote.find_or_create(id: item.id, database: db) {
 											if n.text.count == 0 {
 												n.setEncrypted(item.contentText)
-												try await n.write(to: db)
 											}
+											n.notebookID = notebook_id
+											try await n.write(to: db)
 											notes.append(n)
 										}
 									}
