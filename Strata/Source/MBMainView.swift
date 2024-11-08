@@ -44,6 +44,20 @@ struct MBMainView: View {
 			.alternatingRowBackgrounds()
 		}
 		detail: {
+			if !self.hasSecretKey() {
+				VStack {
+					HStack {
+						Image(systemName: "lock")
+						Text("Notes locked")
+					}
+					.padding(.vertical, 5)
+
+					SettingsLink {
+						Text("Settings...")
+							.frame(minWidth: 80)
+					}
+				}
+			}
 		}
 		.toolbar {
 			ToolbarItem(placement: .navigation) {
@@ -158,7 +172,16 @@ struct MBMainView: View {
 			return false
 		}
 	}
-	
+
+	private func hasSecretKey() -> Bool {
+		if let _ = MBKeychain.shared.get(key: Constants.Keychain.secret) {
+			return true
+		}
+		else {
+			return false
+		}
+	}
+
 	private func verifyToken(_ token: String, completion: @escaping (String?, String?) -> Void) {
 		guard let url = URL(string: "\(Constants.baseURL)/account/verify") else { return }
 		var request = URLRequest(url: url)
