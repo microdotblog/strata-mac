@@ -99,7 +99,7 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 	
 	func saveNote(encryptedText: String) {
 		if let token = MBKeychain.shared.get(key: Constants.Keychain.token) {
-			guard let url = URL(string: "https://micro.blog/notes") else { return }
+			guard let url = URL(string: "\(Constants.baseURL)/notes") else { return }
 			var request = URLRequest(url: url)
 			request.httpMethod = "POST"
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
