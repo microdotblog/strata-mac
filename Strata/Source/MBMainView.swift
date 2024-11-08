@@ -99,11 +99,14 @@ struct MBMainView: View {
 		.onAppear {
 			if self.hasToken() {
 				self.isSigninSheet = false
-				self.fetcNotebooks()
+				self.fetchNotebooks()
 			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .focusSearchField)) { _ in
 			isSearchFocused = true
+		}
+		.onReceive(NotificationCenter.default.publisher(for: .refreshNotes)) { _ in
+			self.fetchNotebooks()
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .signOut)) { _ in
 			self.promptSignOut()
@@ -117,7 +120,7 @@ struct MBMainView: View {
 						if !MBKeychain.shared.save(key: Constants.Keychain.token, value: new_token) {
 							print("Error saving new token")
 						}
-						self.fetcNotebooks()
+						self.fetchNotebooks()
 					}
 				}
 				self.isSigninSheet = false
@@ -209,7 +212,7 @@ struct MBMainView: View {
 		}.resume()
 	}
 	
-	private func fetcNotebooks() {
+	private func fetchNotebooks() {
 		if let token = MBKeychain.shared.get(key: Constants.Keychain.token) {
 			guard let url = URL(string: "\(Constants.baseURL)/notes/notebooks") else { return }
 			var request = URLRequest(url: url)

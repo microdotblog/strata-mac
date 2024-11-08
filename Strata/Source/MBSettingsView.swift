@@ -66,7 +66,10 @@ struct MBSettingsView: View {
 				Button(action: {
 					print("Secret: \(secretKey)")
 					self.isFinishedSave = true
-					if !MBKeychain.shared.save(key: Constants.Keychain.secret, value: secretKey) {
+					if MBKeychain.shared.save(key: Constants.Keychain.secret, value: secretKey) {
+						NotificationCenter.default.post(name: .refreshNotes, object: nil)
+					}
+					else {
 						print("Error saving secret key")
 					}
 				}) {
