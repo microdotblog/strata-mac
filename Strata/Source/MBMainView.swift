@@ -20,18 +20,9 @@ struct MBMainView: View {
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 	@State private var selectedNotebook: FeedItem?
 
-	var currentNotes: [MBNote] {
-		if searchText.count >= 3 {
-			return notes.filter { $0.text.localizedCaseInsensitiveContains(searchText) }
-		}
-		else {
-			return notes
-		}
-	}
-
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
-			List(self.currentNotes) { note in
+			List(self.notes) { note in
 				if let notebook = self.selectedNotebook {
 					NavigationLink(destination: MBDetailView(note: note, notebook: notebook)) {
 						HStack {
@@ -75,6 +66,11 @@ struct MBMainView: View {
 					.focused($isSearchFocused)
 					.textFieldStyle(RoundedBorderTextFieldStyle())
 					.frame(width: 200)
+					.onChange(of: searchText) { oldValue, newValue in
+						Task {
+							try await self.runSearch(newValue)
+						}
+					}
 			}
 			
 			ToolbarItem(placement: .automatic) {
@@ -127,7 +123,33 @@ struct MBMainView: View {
 			)
 		}
 	}
+
+	func runSearch(_ query: String) async throws {
+		var new_notes: [MBNote] = []
+		if query.count >= 3 {
+			if let db = StrataDatabase.shared.getDatabase() {
+				new_notes = try await MBNote.read(from: db, sqlWhere: "text LIKE ?", "%\(query)%")
+			}
+		}
+		else {
+			new_notes = try await self.allNotes()
+		}
+		
+		await MainActor.run {
+			self.notes = new_notes
+		}
+	}
 	
+	func allNotes() async throws -> [MBNote] {
+		if let db = StrataDatabase.shared.getDatabase() {
+			let new_notes = try await MBNote.read(from: db)
+			return new_notes
+		}
+		else {
+			return []
+		}
+	}
+
 	private func hasToken() -> Bool {
 		if let _ = MBKeychain.shared.get(key: Constants.Keychain.token) {
 			return true

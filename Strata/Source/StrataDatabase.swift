@@ -8,6 +8,18 @@
 import Foundation
 
 class StrataDatabase {
+	static let shared = StrataDatabase()
+
+	func getDatabase() -> Blackbird.Database? {
+		if let path = StrataDatabase.getPath() {
+			if let db = try? Blackbird.Database(path: path) {
+				return db
+			}
+		}
+		
+		return nil
+	}
+	
 	class func getPath() -> String? {
 		let fm = FileManager.default
 		if let support_folder = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
