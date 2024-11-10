@@ -19,4 +19,14 @@ struct MBNotebook: BlackbirdModel {
 		self.lightColor = ""
 		self.darkColor = ""
 	}
+	
+	static func find_or_create(id: Int, database: Blackbird.Database) async throws -> MBNotebook? {
+		var notebook = try await MBNotebook.read(from: database, id: id)
+		if notebook == nil {
+			notebook = MBNotebook()
+			notebook?.id = id
+		}
+		
+		return notebook
+	}
 }

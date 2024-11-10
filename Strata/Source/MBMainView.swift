@@ -261,17 +261,28 @@ struct MBMainView: View {
 				if let data = data {
 					do {
 						let feed = try JSONDecoder().decode(JSONFeed.self, from: data)
-						DispatchQueue.main.async {
-							var notebooks: [MBNotebook] = []
-							for item in feed.items {
-								var notebook = MBNotebook()
-								notebook.id = item.id
-								notebook.name = item.title
-								notebooks.append(notebook)
+						
+						Task {
+							if let path = StrataDatabase.getPath() {
+								let db = try Blackbird.Database(path: path)
+
+								var notebooks: [MBNotebook] = []
+								for item in feed.items {
+									if var notebook = try await MBNotebook.find_or_create(id: item.id, database: db) {
+										notebook.id = item.id
+										notebook.name = item.title
+										try await notebook.write(to: db)
+										notebooks.append(notebook)
+									}
+								}
+								
+								await MainActor.run { [notebooks] in
+									self.notebooks = notebooks
+									self.selectedNotebook = notebooks.first
+								}
 							}
-							self.notebooks = notebooks
-							self.selectedNotebook = notebooks.first
-							self.fetchNotes()
+
+							await self.fetchNotes()
 						}
 					}
 					catch {
