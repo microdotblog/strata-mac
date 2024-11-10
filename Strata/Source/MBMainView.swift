@@ -318,6 +318,8 @@ struct MBMainView: View {
 												n.setEncrypted(item.contentText)
 											}
 											n.notebookID = notebook_id
+											n.createdAt = item.datePublished
+											n.updatedAt = item.dateModified
 											try await n.write(to: db)
 											notes.append(n)
 										}
