@@ -164,7 +164,7 @@ struct MBMainView: View {
 		var new_notes: [MBNote] = []
 		if query.count >= 3 {
 			if let db = StrataDatabase.shared.getDatabase() {
-				new_notes = try await MBNote.read(from: db, sqlWhere: "notebookID = ? text LIKE ? ORDER BY updatedAt DESC", self.selectedNotebook?.id, "%\(query)%")
+				new_notes = try await MBNote.read(from: db, sqlWhere: "notebookID = ? AND text LIKE ? ORDER BY updatedAt DESC", self.selectedNotebook?.id, "%\(query)%")
 			}
 		}
 		else {
