@@ -255,6 +255,8 @@ struct MBMainView: View {
 			var request = URLRequest(url: url)
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 			
+			self.isDownloading = true
+
 			URLSession.shared.dataTask(with: request) { data, response, error in
 				if let data = data {
 					do {
@@ -288,6 +290,8 @@ struct MBMainView: View {
 				var request = URLRequest(url: url)
 				request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 				
+				self.isDownloading = true
+
 				URLSession.shared.dataTask(with: request) { data, response, error in
 					if let data = data {
 						do {
@@ -310,6 +314,7 @@ struct MBMainView: View {
 
 									await MainActor.run { [notes] in
 										self.notes = notes
+										self.isDownloading = false
 									}
 								}
 							}
