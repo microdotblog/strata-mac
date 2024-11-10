@@ -9,9 +9,9 @@ import SwiftUI
 
 struct MBDetailView: View {
 	let note: MBNote
-	let notebook: FeedItem
+	let notebook: MBNotebook
 
-	init(note: MBNote, notebook: FeedItem) {
+	init(note: MBNote, notebook: MBNotebook) {
 		self.note = note
 		self.notebook = notebook
 	}

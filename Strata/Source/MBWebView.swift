@@ -13,9 +13,9 @@ struct MBWebView: NSViewRepresentable {
 	let webDelegate: MBWebDelegate
 	let text: String
 	let note: MBNote
-	let notebook: FeedItem
+	let notebook: MBNotebook
 	
-	init(_ text: String, note: MBNote, notebook: FeedItem) {
+	init(_ text: String, note: MBNote, notebook: MBNotebook) {
 		let config = WKWebViewConfiguration()
 		self.webView = WKWebView(frame: .zero, configuration: config)
 		self.webDelegate = MBWebDelegate(noteID: String(note.id), notebookID: String(notebook.id))

@@ -7,18 +7,16 @@
 
 import SwiftUI
 
-extension FeedItem {
-}
-
 struct MBMainView: View {
 	@State private var isSigninSheet = true
 	@State private var isSignOutAlert = false
+	@State private var isDownloading = false
 	@State private var notes: [MBNote] = []
-	@State private var notebooks: [FeedItem] = []
+	@State private var notebooks: [MBNotebook] = []
 	@State private var searchText = ""
 	@FocusState private var isSearchFocused: Bool
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
-	@State private var selectedNotebook: FeedItem?
+	@State private var selectedNotebook: MBNotebook?
 
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -40,8 +38,20 @@ struct MBMainView: View {
 			}
 			.frame(minWidth: 200)
 			.listStyle(PlainListStyle())
-			.navigationSplitViewColumnWidth(min: 100, ideal: 200)
+			.navigationSplitViewColumnWidth(min: 200, ideal: 200)
 			.alternatingRowBackgrounds()
+			.toolbar(removing: .sidebarToggle)
+			.toolbar {
+				ToolbarItem(placement: .automatic) {
+					Spacer()
+				}
+				ToolbarItem(placement: .automatic) {
+					if isDownloading {
+						ProgressView()
+							.scaleEffect(0.5)
+					}
+				}
+			}
 		}
 		detail: {
 			if !self.hasSecretKey() {
@@ -62,15 +72,15 @@ struct MBMainView: View {
 		.toolbar {
 			ToolbarItem(placement: .navigation) {
 				Menu {
-					ForEach(notebooks, id: \.id) { notebook in
-						Button(notebook.title) {
+					ForEach(self.notebooks, id: \.id) { notebook in
+						Button(notebook.name) {
 							self.selectedNotebook = notebook
 							self.fetchNotes()
 						}
 					}
 				} label: {
 					if let notebook = selectedNotebook {
-						Text(notebook.title)
+						Text(notebook.name)
 					}
 				}
 			}
@@ -97,9 +107,18 @@ struct MBMainView: View {
 		}
 		.navigationTitle("")
 		.onAppear {
+			self.loadNotes()
 			if self.hasToken() {
 				self.isSigninSheet = false
 				self.fetchNotebooks()
+			}
+		}
+		.onChange(of: columnVisibility, initial: true) { oldVal, newVal in
+			if newVal == .detailOnly {
+				// hack to always show sidebar again
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+					self.columnVisibility = .all
+				}
 			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .focusSearchField)) { _ in
@@ -166,6 +185,24 @@ struct MBMainView: View {
 			return []
 		}
 	}
+	
+	func loadNotes() {
+		Task {
+			var notebooks: [MBNotebook] = []
+			if let db = StrataDatabase.shared.getDatabase() {
+				notebooks = try await MBNotebook.read(from: db)
+			}
+			
+			if notebooks.count > 0 {
+				self.selectedNotebook = notebooks.first
+				let notes = try await self.allNotes()
+				DispatchQueue.main.async {
+					self.notebooks = notebooks
+					self.notes = notes
+				}
+			}
+		}
+	}
 
 	private func hasToken() -> Bool {
 		if let _ = MBKeychain.shared.get(key: Constants.Keychain.token) {
@@ -223,8 +260,15 @@ struct MBMainView: View {
 					do {
 						let feed = try JSONDecoder().decode(JSONFeed.self, from: data)
 						DispatchQueue.main.async {
-							self.notebooks = feed.items
-							self.selectedNotebook = feed.items.first
+							var notebooks: [MBNotebook] = []
+							for item in feed.items {
+								var notebook = MBNotebook()
+								notebook.id = item.id
+								notebook.name = item.title
+								notebooks.append(notebook)
+							}
+							self.notebooks = notebooks
+							self.selectedNotebook = notebooks.first
 							self.fetchNotes()
 						}
 					}
