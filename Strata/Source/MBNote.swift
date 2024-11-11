@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MBNote: BlackbirdModel {
+struct MBNote: BlackbirdModel, Identifiable {
 	@BlackbirdColumn var id: Int
 	@BlackbirdColumn var notebookID: Int
 	@BlackbirdColumn var text: String
@@ -28,7 +28,7 @@ struct MBNote: BlackbirdModel {
 		self.isSharing = false
 		self.isUnsharing = false		
 	}
-	
+		
 	mutating func setEncrypted(_ encrypted: String) {
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")

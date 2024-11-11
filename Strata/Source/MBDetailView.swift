@@ -17,6 +17,6 @@ struct MBDetailView: View {
 	}
 	
 	var body: some View {
-		MBWebView(self.note.text, note: self.note, notebook: notebook)
+		MBWebView(self.note.text, note: self.note, notebook: self.notebook)
 	}
 }

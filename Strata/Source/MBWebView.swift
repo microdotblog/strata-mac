@@ -9,15 +9,13 @@ import SwiftUI
 import WebKit
 
 struct MBWebView: NSViewRepresentable {
-	let webView: WKWebView
+//	let webView: WKWebView
 	let webDelegate: MBWebDelegate
 	let text: String
 	let note: MBNote
 	let notebook: MBNotebook
 	
 	init(_ text: String, note: MBNote, notebook: MBNotebook) {
-		let config = WKWebViewConfiguration()
-		self.webView = WKWebView(frame: .zero, configuration: config)
 		self.webDelegate = MBWebDelegate(noteID: String(note.id), notebookID: String(notebook.id))
 		self.text = text
 		self.note = note
@@ -25,17 +23,19 @@ struct MBWebView: NSViewRepresentable {
 	}
 	
 	func makeNSView(context: Context) -> WKWebView {
-		webView.allowsBackForwardNavigationGestures = false
-		webView.allowsLinkPreview = true
-		webView.navigationDelegate = webDelegate
-		return webView
+		let config = WKWebViewConfiguration()
+		let webview = WKWebView(frame: .zero, configuration: config)
+		webview.allowsBackForwardNavigationGestures = false
+		webview.allowsLinkPreview = true
+		webview.navigationDelegate = self.webDelegate
+		return webview
 	}
 	
 	func updateNSView(_ webView: WKWebView, context: Context) {
 		if let url = Bundle.main.url(forResource: "micro_editor", withExtension: "html") {
 			webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-				webDelegate.loadNoteText(self.text, webView: webView)
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+				self.webDelegate.loadNoteText(self.text, webView: webView)
 			}
 		}
 	}

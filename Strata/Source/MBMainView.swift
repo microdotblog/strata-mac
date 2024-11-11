@@ -21,7 +21,7 @@ struct MBMainView: View {
 
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
-			List(self.notes, selection: $noteSelection) { note in
+			List(self.notes, id: \.id, selection: $noteSelection) { note in
 				if let notebook = self.selectedNotebook {
 					NavigationLink(destination: MBDetailView(note: note, notebook: notebook)) {
 						HStack {
@@ -199,7 +199,7 @@ struct MBMainView: View {
 				let notes = try await self.allNotes()
 				DispatchQueue.main.async {
 					self.notebooks = notebooks
-					self.notes = notes
+//					self.notes = notes
 				}
 			}
 		}
