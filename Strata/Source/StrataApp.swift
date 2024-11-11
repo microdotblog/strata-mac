@@ -35,20 +35,30 @@ struct StrataApp: App {
 				}
 				.keyboardShortcut("f", modifiers: .command)
 			}
-		}
 
-//		WindowGroup {
-//			MBSigninView()
-//		}
-//		.windowResizability(.contentSize)
-//		.handlesExternalEvents(matching: ["signin"])
-//		.commands {
-//			CommandGroup(replacing: .newItem) {
-//				Button("Sign In...") {
-//					openSignInWindow()
-//				}
-//			}
-//		}
+			CommandGroup(replacing: .sidebar) {
+				Button("Notes") {
+				}
+				.keyboardShortcut("1", modifiers: .command)
+
+				Button("Bookmarks") {
+				}
+				.keyboardShortcut("2", modifiers: .command)
+
+				Button("Highlights") {
+				}
+				.keyboardShortcut("3", modifiers: .command)
+
+				Divider()
+
+				Button("Refresh") {
+					NotificationCenter.default.post(name: .refreshNotes, object: nil)
+				}
+				.keyboardShortcut("R", modifiers: [ .command, .shift ])
+
+				Divider()
+			}
+		}
 		
 		Settings {
 			MBSettingsView()

@@ -292,10 +292,9 @@ struct MBMainView: View {
 								await MainActor.run { [notebooks] in
 									self.notebooks = notebooks
 									self.selectedNotebook = notebooks.first
+									self.fetchNotes()
 								}
 							}
-
-							await self.fetchNotes()
 						}
 					}
 					catch {
