@@ -179,7 +179,7 @@ struct MBMainView: View {
 	
 	func allNotes() async throws -> [MBNote] {
 		if let db = StrataDatabase.shared.getDatabase() {
-			let new_notes = try await MBNote.read(from: db, matching: \.$notebookID == self.selectedNotebook?.id, orderBy: .ascending(\.$updatedAt))
+			let new_notes = try await MBNote.read(from: db, matching: \.$notebookID == self.selectedNotebook?.id, orderBy: .descending(\.$updatedAt))
 			return new_notes
 		}
 		else {

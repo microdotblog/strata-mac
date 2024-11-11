@@ -9,7 +9,6 @@ import SwiftUI
 import WebKit
 
 struct MBWebView: NSViewRepresentable {
-//	let webView: WKWebView
 	let webDelegate: MBWebDelegate
 	let text: String
 	let note: MBNote
@@ -23,19 +22,29 @@ struct MBWebView: NSViewRepresentable {
 	}
 	
 	func makeNSView(context: Context) -> WKWebView {
+		// make the web view
 		let config = WKWebViewConfiguration()
 		let webview = WKWebView(frame: .zero, configuration: config)
 		webview.allowsBackForwardNavigationGestures = false
 		webview.allowsLinkPreview = true
 		webview.navigationDelegate = self.webDelegate
+
+		// load our basic HTML and JS
+		self.webDelegate.loadHTML(webview)
+
 		return webview
 	}
 	
 	func updateNSView(_ webView: WKWebView, context: Context) {
-		if let url = Bundle.main.url(forResource: "micro_editor", withExtension: "html") {
-			webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+		self.webDelegate.isLoaded(webView: webView) { is_loaded in
+			if is_loaded {
 				self.webDelegate.loadNoteText(self.text, webView: webView)
+			}
+			else {
+				// if not yet loaded, give it a little more time
+				DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+					self.webDelegate.loadNoteText(self.text, webView: webView)
+				}
 			}
 		}
 	}
@@ -54,7 +63,25 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 		self.startEditingTimer(webView: webView)
 	}
-	
+
+	func isLoaded(webView: WKWebView, completion: @escaping (Bool) -> Void) {
+		let js = "document.getElementById('editor') != null";
+		webView.evaluateJavaScript(js) { result, error in
+			if let is_loaded = result as? Bool {
+				completion(is_loaded)
+			}
+			else {
+				completion(false)
+			}
+		}
+	}
+
+	func loadHTML(_ webView: WKWebView) {
+		if let url = Bundle.main.url(forResource: "micro_editor", withExtension: "html") {
+			webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
+		}
+	}
+
 	func loadNoteText(_ text: String, webView: WKWebView) {
 		var s = text
 		s = s.replacingOccurrences(of: "<", with: "&lt;")
