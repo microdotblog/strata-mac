@@ -53,7 +53,7 @@ struct MBWebView: NSViewRepresentable {
 }
 
 class MBWebDelegate: NSObject, WKNavigationDelegate {
-	let noteID: String?
+	var noteID: String?
 	let notebookID: String?
 	var lastText: String = ""
 
@@ -182,6 +182,14 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 				
 				if let data = data, let responseString = String(data: data, encoding: .utf8) {
 					print("Response: \(responseString)")
+					do {
+						let item = try JSONDecoder().decode(FeedItem.self, from: data)
+						self.noteID = String(item.id)
+						print("Updating with ID: \(item.id)")
+					}
+					catch {
+						print("Failed to decode JSON: \(error)")
+					}
 				}
 			}.resume()
 		}

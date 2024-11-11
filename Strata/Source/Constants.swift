@@ -11,6 +11,7 @@ extension Notification.Name {
 	static let focusSearchField = Notification.Name("focusSearchField")
 	static let signOut = Notification.Name("signOut")
 	static let refreshNotes = Notification.Name("refreshNotes")
+	static let makeNewNote = Notification.Name("makeNewNote")
 }
 
 struct Constants {

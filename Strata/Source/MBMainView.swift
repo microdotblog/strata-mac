@@ -133,6 +133,9 @@ struct MBMainView: View {
 		.onReceive(NotificationCenter.default.publisher(for: .refreshNotes)) { _ in
 			self.fetchNotebooks()
 		}
+		.onReceive(NotificationCenter.default.publisher(for: .makeNewNote)) { _ in
+			self.newNote()
+		}
 		.onReceive(NotificationCenter.default.publisher(for: .signOut)) { _ in
 			self.promptSignOut()
 		}

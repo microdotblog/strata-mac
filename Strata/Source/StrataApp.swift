@@ -66,6 +66,7 @@ struct StrataApp: App {
 	}
 	
 	func makeNewNote() {
+		NotificationCenter.default.post(name: .makeNewNote, object: nil)
 	}
 	
 	func signOut() {
