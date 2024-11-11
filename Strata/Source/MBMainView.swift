@@ -204,7 +204,7 @@ struct MBMainView: View {
 				let notes = try await self.allNotes()
 				DispatchQueue.main.async {
 					self.notebooks = notebooks
-//					self.notes = notes
+					self.notes = notes
 				}
 			}
 		}
@@ -356,6 +356,8 @@ struct MBMainView: View {
 	}
 	
 	private func newNote() {
+		let new_note = MBNote()
+		self.notes.insert(new_note, at: 0)
 	}
 	
 	private func promptSignOut() {

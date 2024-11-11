@@ -145,10 +145,7 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 	}
 	
 	func saveNote(encryptedText: String) {
-		print("Saving note with ID: \(self.noteID)")
-		if self.noteID?.count == 0 {
-			return
-		}
+		print("Saving note with ID: \(String(describing: self.noteID))")
 		
 		if let token = MBKeychain.shared.get(key: Constants.Keychain.token) {
 			guard let url = URL(string: "\(Constants.baseURL)/notes") else { return }
@@ -159,11 +156,18 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 			
 			var components = URLComponents()
 			components.queryItems = [
-				URLQueryItem(name: "id", value: self.noteID),
 				URLQueryItem(name: "notebook_id", value: self.notebookID),
 				URLQueryItem(name: "text", value: encryptedText),
 				URLQueryItem(name: "is_encrypted", value: "1")
 			]
+
+			if let note_id = self.noteID {
+				if (note_id != "") && (note_id != "0") {
+					let new_item = URLQueryItem(name: "id", value: note_id)
+					components.queryItems?.append(new_item)
+				}
+			}
+
 			request.httpBody = components.query?.data(using: .utf8)
 			
 			URLSession.shared.dataTask(with: request) { data, response, error in
