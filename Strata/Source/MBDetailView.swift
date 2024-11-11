@@ -11,6 +11,11 @@ struct MBDetailView: View {
 	let note: MBNote
 	let notebook: MBNotebook
 
+	init(notebook: MBNotebook) {
+		self.note = MBNote()
+		self.notebook = notebook
+	}
+	
 	init(note: MBNote, notebook: MBNotebook) {
 		self.note = note
 		self.notebook = notebook

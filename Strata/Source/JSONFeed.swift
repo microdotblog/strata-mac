@@ -17,6 +17,7 @@ struct FeedItem: Identifiable, Decodable {
 	let contentText: String
 	let datePublished: String?
 	let dateModified: String?
+	let microblog: FeedMicroblog
 
 	private enum CodingKeys: String, CodingKey {
 		case id
@@ -24,6 +25,7 @@ struct FeedItem: Identifiable, Decodable {
 		case contentText = "content_text"
 		case datePublished = "date_published"
 		case dateModified = "date_modified"
+		case microblog = "_microblog"
 	}
 	
 	func parseDate(_ string: String) -> Date? {
@@ -33,4 +35,13 @@ struct FeedItem: Identifiable, Decodable {
 		let d = formatter.date(from: string)
 		return d
 	}
+}
+
+struct FeedMicroblog: Decodable {
+	let colors: FeedColors?
+}
+
+struct FeedColors: Decodable {
+	let light: String
+	let dark: String
 }

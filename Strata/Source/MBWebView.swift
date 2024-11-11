@@ -39,11 +39,13 @@ struct MBWebView: NSViewRepresentable {
 		self.webDelegate.isLoaded(webView: webView) { is_loaded in
 			if is_loaded {
 				self.webDelegate.loadNoteText(self.text, webView: webView)
+				self.webDelegate.loadBackground(self.notebook.lightColor, webView: webView)
 			}
 			else {
 				// if not yet loaded, give it a little more time
 				DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 					self.webDelegate.loadNoteText(self.text, webView: webView)
+					self.webDelegate.loadBackground(self.notebook.lightColor, webView: webView)
 				}
 			}
 		}
@@ -96,6 +98,18 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 		}
 	}
 	
+	func loadBackground(_ color: String, webView: WKWebView) {
+		var js: String
+		
+		js = "document.getElementById(\"editor\").style.backgroundColor = \"\(color)\"";
+		webView.evaluateJavaScript(js) { result, error in
+		}
+
+		js = "document.body.style.backgroundColor = \"\(color)\"";
+		webView.evaluateJavaScript(js) { result, error in
+		}
+	}
+	
 	func getNoteText(webView: WKWebView, completion: @escaping (String) -> Void) {
 		let js = "document.getElementById(\"editor\").innerText"
 		webView.evaluateJavaScript(js) { result, error in
@@ -131,6 +145,11 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 	}
 	
 	func saveNote(encryptedText: String) {
+		print("Saving note with ID: \(self.noteID)")
+		if self.noteID?.count == 0 {
+			return
+		}
+		
 		if let token = MBKeychain.shared.get(key: Constants.Keychain.token) {
 			guard let url = URL(string: "\(Constants.baseURL)/notes") else { return }
 			var request = URLRequest(url: url)

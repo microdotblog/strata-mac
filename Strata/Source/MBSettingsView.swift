@@ -59,12 +59,11 @@ struct MBSettingsView: View {
 						print("Error removing secret key")
 					}
 				}) {
-					Text("Remove Key").frame(minWidth: 55)
+					Text("Delete Key").frame(minWidth: 55)
 				}
 				.disabled(secretKey.isEmpty)
 
 				Button(action: {
-					print("Secret: \(secretKey)")
 					self.isFinishedSave = true
 					if MBKeychain.shared.save(key: Constants.Keychain.secret, value: secretKey) {
 						NotificationCenter.default.post(name: .refreshNotes, object: nil)

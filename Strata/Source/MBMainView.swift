@@ -55,7 +55,12 @@ struct MBMainView: View {
 			}
 		}
 		detail: {
-			if !self.hasSecretKey() {
+			if self.hasSecretKey() {
+				if let notebook = self.selectedNotebook {
+					MBDetailView(notebook: notebook)
+				}
+			}
+			else {
 				VStack {
 					HStack {
 						Image(systemName: "lock")
@@ -272,6 +277,10 @@ struct MBMainView: View {
 									if var notebook = try await MBNotebook.find_or_create(id: item.id, database: db) {
 										notebook.id = item.id
 										notebook.name = item.title
+										if let colors = item.microblog.colors {
+											notebook.lightColor = colors.light
+											notebook.darkColor = colors.dark
+										}
 										try await notebook.write(to: db)
 										notebooks.append(notebook)
 									}
