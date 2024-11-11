@@ -17,7 +17,7 @@ struct MBMainView: View {
 	@FocusState private var isSearchFocused: Bool
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 	@State private var selectedNotebook: MBNotebook?
-	@State private var noteSelection = Set<Int>()
+	@State private var noteSelection: Int = 0
 
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {

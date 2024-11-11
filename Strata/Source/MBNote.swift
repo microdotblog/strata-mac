@@ -28,7 +28,11 @@ struct MBNote: BlackbirdModel, Identifiable {
 		self.isSharing = false
 		self.isUnsharing = false		
 	}
-		
+
+	static func < (lhs: MBNote, rhs: MBNote) -> Bool {
+		lhs.id < rhs.id
+	}
+
 	mutating func setEncrypted(_ encrypted: String) {
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
