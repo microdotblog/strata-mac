@@ -17,10 +17,11 @@ struct MBMainView: View {
 	@FocusState private var isSearchFocused: Bool
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 	@State private var selectedNotebook: MBNotebook?
+	@State private var noteSelection = Set<Int>()
 
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
-			List(self.notes) { note in
+			List(self.notes, selection: $noteSelection) { note in
 				if let notebook = self.selectedNotebook {
 					NavigationLink(destination: MBDetailView(note: note, notebook: notebook)) {
 						HStack {
@@ -318,8 +319,12 @@ struct MBMainView: View {
 												n.setEncrypted(item.contentText)
 											}
 											n.notebookID = notebook_id
-											n.createdAt = item.datePublished
-											n.updatedAt = item.dateModified
+											if let date_published = item.datePublished {
+												n.createdAt = item.parseDate(date_published)
+											}
+											if let date_modified = item.dateModified {
+												n.updatedAt = item.parseDate(date_modified)
+											}
 											try await n.write(to: db)
 											notes.append(n)
 										}

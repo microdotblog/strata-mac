@@ -91,7 +91,8 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 	
 	func saveNote(plainText: String) {
 		// to avoid bugs, for now don't let note be cleared
-		if plainText.count == 0 {
+		let s = plainText.replacingOccurrences(of: "\n", with: "")
+		if s.count == 0 {
 			return
 		}
 
