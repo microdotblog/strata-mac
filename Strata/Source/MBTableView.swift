@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct MBTableView: NSViewRepresentable {
 	@Binding var data: [MBNote]
 	@Binding var selection: MBNote?

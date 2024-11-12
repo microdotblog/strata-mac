@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// aeeiii
+var gWindow: NSWindow?
+
 struct MBMainView: View {
 	@State private var isSigninSheet = true
 	@State private var isSignOutAlert = false
@@ -14,7 +17,6 @@ struct MBMainView: View {
 	@State private var notes: [MBNote] = []
 	@State private var notebooks: [MBNotebook] = []
 	@State private var searchText = ""
-	@FocusState private var isSearchFocused: Bool
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 	@State private var selectedNotebook: MBNotebook?
 	@State private var selectedNote: MBNote?
@@ -70,7 +72,6 @@ struct MBMainView: View {
 
 			ToolbarItem(placement: .automatic) {
 				TextField("Search", text: $searchText)
-					.focused($isSearchFocused)
 					.textFieldStyle(RoundedBorderTextFieldStyle())
 					.frame(width: 200)
 					.onChange(of: searchText) { oldValue, newValue in
@@ -105,7 +106,7 @@ struct MBMainView: View {
 			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .focusSearchField)) { _ in
-			isSearchFocused = true
+			self.findAndFocusSearch()
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .refreshNotes)) { _ in
 			self.fetchNotebooks()
@@ -115,6 +116,11 @@ struct MBMainView: View {
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .signOut)) { _ in
 			self.promptSignOut()
+		}
+		.onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) { notification in
+			if let window = notification.object as? NSWindow {
+				gWindow = window
+			}
 		}
 		.onOpenURL { url in
 			if let token = url.pathComponents.last {
@@ -183,6 +189,25 @@ struct MBMainView: View {
 				await MainActor.run {
 					self.notebooks = notebooks
 					self.notes = notes
+				}
+			}
+		}
+	}
+	
+	private func findAndFocusSearch() {
+		guard let toolbar = gWindow?.toolbar else { return }
+  
+		// iterate through items looking for text field
+		for item in toolbar.items {
+			if let view = item.view {
+				for host in view.subviews {
+					for sub in host.subviews {
+						let t = String(describing: type(of: sub))
+						if t == "AppKitTextField" {
+							sub.becomeFirstResponder()
+							break
+						}
+					}
 				}
 			}
 		}
