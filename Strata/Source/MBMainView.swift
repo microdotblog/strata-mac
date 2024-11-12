@@ -17,20 +17,14 @@ struct MBMainView: View {
 	@FocusState private var isSearchFocused: Bool
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 	@State private var selectedNotebook: MBNotebook?
-	@State private var noteSelection: Int = 0
+	@State private var noteSelection: MBNote?
 
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
-			List(self.notes, id: \.id, selection: $noteSelection) { note in
+			List(self.notes, id: \.self, selection: $noteSelection) { note in
 				if let notebook = self.selectedNotebook {
 					NavigationLink(destination: MBDetailView(note: note, notebook: notebook)) {
-						HStack {
-							Text(note.text)
-								.lineLimit(3)
-								.padding(.horizontal, 5)
-								.padding(.vertical, 14)
-							Spacer() // pushes the text to the left, taking up full width
-						}
+						MBNoteCell(note.text)
 					}
 					.listRowInsets(EdgeInsets())
 					.listRowSeparator(.hidden)
@@ -290,6 +284,7 @@ struct MBMainView: View {
 								}
 								
 								await MainActor.run { [notebooks] in
+									self.noteSelection = nil
 									self.notebooks = notebooks
 									self.selectedNotebook = notebooks.first
 									self.fetchNotes()

@@ -29,6 +29,10 @@ struct MBNote: BlackbirdModel, Identifiable {
 		self.isUnsharing = false		
 	}
 
+	static func == (lhs: MBNote, rhs: MBNote) -> Bool {
+		lhs.id == rhs.id
+	}
+
 	static func < (lhs: MBNote, rhs: MBNote) -> Bool {
 		lhs.id < rhs.id
 	}
