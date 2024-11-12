@@ -46,6 +46,8 @@
 		4BA0F2F62C80D11700FFA0CC /* micro_editor.js in Resources */ = {isa = PBXBuildFile; fileRef = 4BA0F2F42C80D11700FFA0CC /* micro_editor.js */; };
 		4BA0F2F82C80D33D00FFA0CC /* custom.css in Resources */ = {isa = PBXBuildFile; fileRef = 4BA0F2F72C80D33D00FFA0CC /* custom.css */; };
 		4BE66DA62CE3A99600B86D30 /* MBNoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE66DA52CE3A99600B86D30 /* MBNoteCell.swift */; };
+		4BE66DB12CE407B200B86D30 /* MBDetailPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE66DAF2CE407B200B86D30 /* MBDetailPlaceholder.swift */; };
+		4BE66DB22CE407B200B86D30 /* MBTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE66DB02CE407B200B86D30 /* MBTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +95,8 @@
 		4BA0F2F42C80D11700FFA0CC /* micro_editor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = micro_editor.js; path = Resources/micro_editor.js; sourceTree = "<group>"; };
 		4BA0F2F72C80D33D00FFA0CC /* custom.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = custom.css; path = Resources/custom.css; sourceTree = "<group>"; };
 		4BE66DA52CE3A99600B86D30 /* MBNoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBNoteCell.swift; path = Source/MBNoteCell.swift; sourceTree = "<group>"; };
+		4BE66DAF2CE407B200B86D30 /* MBDetailPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBDetailPlaceholder.swift; path = Source/MBDetailPlaceholder.swift; sourceTree = "<group>"; };
+		4BE66DB02CE407B200B86D30 /* MBTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MBTableView.swift; path = Source/MBTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +172,8 @@
 				4B805A102CDA78B90092D9DB /* MBUser.swift */,
 				4B805A572CDD886C0092D9DB /* MBNote.swift */,
 				4B805A5B2CDEEB1A0092D9DB /* MBNotebook.swift */,
+				4BE66DB02CE407B200B86D30 /* MBTableView.swift */,
+				4BE66DAF2CE407B200B86D30 /* MBDetailPlaceholder.swift */,
 				4B805A012CD724ED0092D9DB /* MBNoteUtils.h */,
 				4B805A022CD724ED0092D9DB /* MBNoteUtils.m */,
 				4BA0F2EE2C80CE5000FFA0CC /* micro_editor.html */,
@@ -303,6 +309,8 @@
 				4B805A552CDD87190092D9DB /* BlackbirdPerformanceLogger.swift in Sources */,
 				4B805A562CDD87190092D9DB /* BlackbirdColumnTypes.swift in Sources */,
 				4BA0F2DE2C80C58800FFA0CC /* StrataApp.swift in Sources */,
+				4BE66DB12CE407B200B86D30 /* MBDetailPlaceholder.swift in Sources */,
+				4BE66DB22CE407B200B86D30 /* MBTableView.swift in Sources */,
 				4B8059FB2CD6DC750092D9DB /* MBSigninView.swift in Sources */,
 				4B805A092CD7CE700092D9DB /* Constants.swift in Sources */,
 			);

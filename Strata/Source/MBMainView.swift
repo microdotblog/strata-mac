@@ -17,24 +17,13 @@ struct MBMainView: View {
 	@FocusState private var isSearchFocused: Bool
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 	@State private var selectedNotebook: MBNotebook?
-	@State private var noteSelection: MBNote?
+	@State private var selectedNote: MBNote?
 
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
-			List(self.notes, id: \.self, selection: $noteSelection) { note in
-				if let notebook = self.selectedNotebook {
-					NavigationLink(destination: MBDetailView(note: note, notebook: notebook)) {
-						MBNoteCell(note.text)
-					}
-					.listRowInsets(EdgeInsets())
-					.listRowSeparator(.hidden)
-					.padding(0)
-				}
-			}
+			MBTableView(data: $notes, selection: $selectedNote)
 			.frame(minWidth: 200)
-			.listStyle(PlainListStyle())
 			.navigationSplitViewColumnWidth(min: 200, ideal: 200)
-			.alternatingRowBackgrounds()
 			.toolbar(removing: .sidebarToggle)
 			.toolbar {
 				ToolbarItem(placement: .automatic) {
@@ -51,22 +40,16 @@ struct MBMainView: View {
 		detail: {
 			if self.hasSecretKey() {
 				if let notebook = self.selectedNotebook {
-					MBDetailView(notebook: notebook)
+					if let note = self.selectedNote {
+						MBDetailView(note: note, notebook: notebook)
+					}
+					else {
+						MBDetailView(notebook: notebook)
+					}
 				}
 			}
 			else {
-				VStack {
-					HStack {
-						Image(systemName: "lock")
-						Text("Notes locked")
-					}
-					.padding(.vertical, 5)
-
-					SettingsLink {
-						Text("Settings...")
-							.frame(minWidth: 80)
-					}
-				}
+				MBDetailPlaceholder()
 			}
 		}
 		.toolbar {
@@ -135,10 +118,8 @@ struct MBMainView: View {
 		}
 		.onOpenURL { url in
 			if let token = url.pathComponents.last {
-				print("Got token \(token)")
 				self.verifyToken(token) { new_token, error in
 					if let new_token = new_token {
-						print("New token \(new_token)")
 						if !MBKeychain.shared.save(key: Constants.Keychain.token, value: new_token) {
 							print("Error saving new token")
 						}
@@ -199,7 +180,7 @@ struct MBMainView: View {
 			if notebooks.count > 0 {
 				self.selectedNotebook = notebooks.first
 				let notes = try await self.allNotes()
-				DispatchQueue.main.async {
+				await MainActor.run {
 					self.notebooks = notebooks
 					self.notes = notes
 				}
@@ -284,7 +265,7 @@ struct MBMainView: View {
 								}
 								
 								await MainActor.run { [notebooks] in
-									self.noteSelection = nil
+									self.selectedNote = nil
 									self.notebooks = notebooks
 									self.selectedNotebook = notebooks.first
 									self.fetchNotes()

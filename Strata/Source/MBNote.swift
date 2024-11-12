@@ -37,6 +37,10 @@ struct MBNote: BlackbirdModel, Identifiable {
 		lhs.id < rhs.id
 	}
 
+	var cellText: String {
+		return self.text
+	}
+	
 	mutating func setEncrypted(_ encrypted: String) {
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
