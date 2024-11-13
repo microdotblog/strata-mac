@@ -60,6 +60,7 @@ struct MBMainView: View {
 				Menu {
 					ForEach(self.notebooks, id: \.id) { notebook in
 						Button(notebook.name) {
+							self.selectedNote = nil
 							self.selectedNotebook = notebook
 							self.fetchNotes()
 						}
@@ -151,7 +152,7 @@ struct MBMainView: View {
 	func runSearch(_ query: String) {
 		var new_notes: [MBNote] = []
 		if query.count >= 3 {
-			// ...
+			new_notes = self.allNotes.filter { $0.text.localizedCaseInsensitiveContains(query) }
 		}
 		else {
 			new_notes = self.allNotes
@@ -301,6 +302,7 @@ struct MBMainView: View {
 									}
 
 									await MainActor.run { [notes] in
+										self.allNotes = notes
 										self.currentNotes = notes
 										self.isDownloading = false
 									}
