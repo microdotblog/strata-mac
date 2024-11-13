@@ -30,11 +30,7 @@ struct MBNote: BlackbirdModel, Identifiable {
 	}
 
 	static func == (lhs: MBNote, rhs: MBNote) -> Bool {
-		lhs.id == rhs.id
-	}
-
-	static func < (lhs: MBNote, rhs: MBNote) -> Bool {
-		lhs.id < rhs.id
+		return (lhs.id == rhs.id) && (lhs.updatedAt == rhs.updatedAt)
 	}
 
 	var cellText: String {
