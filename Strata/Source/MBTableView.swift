@@ -34,8 +34,10 @@ struct MBTableView: NSViewRepresentable {
 
 	func updateNSView(_ nsView: NSScrollView, context: Context) {
 		if let tableView = nsView.documentView as? NSTableView {
-			context.coordinator.data = data
-			tableView.reloadData()
+			if context.coordinator.anyChanges(data: self.data) {
+				context.coordinator.data = self.data
+				tableView.reloadData()
+			}
 		}
 	}
 
@@ -54,8 +56,12 @@ struct MBTableView: NSViewRepresentable {
 			self.onSelectionChanged = onSelectionChanged
 		}
 
+		func anyChanges(data: [MBNote]) -> Bool {
+			return data != self.data
+		}
+		
 		func numberOfRows(in tableView: NSTableView) -> Int {
-			self.data.count
+			return self.data.count
 		}
 
 		func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {

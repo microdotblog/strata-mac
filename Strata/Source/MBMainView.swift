@@ -14,8 +14,9 @@ struct MBMainView: View {
 	@State private var isSigninSheet = true
 	@State private var isSignOutAlert = false
 	@State private var isDownloading = false
-	@State private var notes: [MBNote] = []
 	@State private var notebooks: [MBNotebook] = []
+	@State private var currentNotes: [MBNote] = []
+	@State private var allNotes: [MBNote] = []
 	@State private var searchText = ""
 	@State private var columnVisibility: NavigationSplitViewVisibility = .all
 	@State private var selectedNotebook: MBNotebook?
@@ -23,7 +24,7 @@ struct MBMainView: View {
 
 	var body: some View {
 		NavigationSplitView(columnVisibility: $columnVisibility) {
-			MBTableView(data: $notes, selection: $selectedNote)
+			MBTableView(data: $currentNotes, selection: $selectedNote)
 			.frame(minWidth: 200)
 			.navigationSplitViewColumnWidth(min: 200, ideal: 200)
 			.toolbar(removing: .sidebarToggle)
@@ -75,9 +76,7 @@ struct MBMainView: View {
 					.textFieldStyle(RoundedBorderTextFieldStyle())
 					.frame(width: 200)
 					.onChange(of: searchText) { oldValue, newValue in
-						Task {
-							try await self.runSearch(newValue)
-						}
+						self.runSearch(newValue)
 					}
 			}
 			
@@ -91,7 +90,6 @@ struct MBMainView: View {
 		}
 		.navigationTitle("")
 		.onAppear {
-			self.loadNotes()
 			if self.hasToken() {
 				self.isSigninSheet = false
 				self.fetchNotebooks()
@@ -150,50 +148,18 @@ struct MBMainView: View {
 		}
 	}
 
-	func runSearch(_ query: String) async throws {
+	func runSearch(_ query: String) {
 		var new_notes: [MBNote] = []
 		if query.count >= 3 {
-			if let db = StrataDatabase.shared.getDatabase() {
-				new_notes = try await MBNote.read(from: db, sqlWhere: "notebookID = ? AND text LIKE ? ORDER BY updatedAt DESC", self.selectedNotebook?.id, "%\(query)%")
-			}
+			// ...
 		}
 		else {
-			new_notes = try await self.allNotes()
+			new_notes = self.allNotes
 		}
 		
-		await MainActor.run {
-			self.notes = new_notes
-		}
+		self.currentNotes = new_notes
 	}
-	
-	func allNotes() async throws -> [MBNote] {
-		if let db = StrataDatabase.shared.getDatabase() {
-			let new_notes = try await MBNote.read(from: db, matching: \.$notebookID == self.selectedNotebook?.id, orderBy: .descending(\.$updatedAt))
-			return new_notes
-		}
-		else {
-			return []
-		}
-	}
-	
-	func loadNotes() {
-		Task {
-			var notebooks: [MBNotebook] = []
-			if let db = StrataDatabase.shared.getDatabase() {
-				notebooks = try await MBNotebook.read(from: db)
-			}
-			
-			if notebooks.count > 0 {
-				self.selectedNotebook = notebooks.first
-				let notes = try await self.allNotes()
-				await MainActor.run {
-					self.notebooks = notebooks
-					self.notes = notes
-				}
-			}
-		}
-	}
-	
+
 	private func findAndFocusSearch() {
 		guard let toolbar = gWindow?.toolbar else { return }
   
@@ -284,7 +250,7 @@ struct MBMainView: View {
 											notebook.lightColor = colors.light
 											notebook.darkColor = colors.dark
 										}
-										try await notebook.write(to: db)
+//										try await notebook.write(to: db)
 										notebooks.append(notebook)
 									}
 								}
@@ -327,23 +293,15 @@ struct MBMainView: View {
 									var notes: [MBNote] = []
 									for item in feed.items {
 										if var n = try await MBNote.find_or_create(id: item.id, database: db) {
-											if n.text.count == 0 {
-												n.setEncrypted(item.contentText)
-											}
+											n.fromFeedItem(item)
 											n.notebookID = notebook_id
-											if let date_published = item.datePublished {
-												n.createdAt = item.parseDate(date_published)
-											}
-											if let date_modified = item.dateModified {
-												n.updatedAt = item.parseDate(date_modified)
-											}
-											try await n.write(to: db)
+//											try await n.write(to: db)
 											notes.append(n)
 										}
 									}
 
 									await MainActor.run { [notes] in
-										self.notes = notes
+										self.currentNotes = notes
 										self.isDownloading = false
 									}
 								}
@@ -360,7 +318,8 @@ struct MBMainView: View {
 	
 	private func newNote() {
 		let new_note = MBNote()
-		self.notes.insert(new_note, at: 0)
+		self.allNotes.insert(new_note, at: 0)
+		self.currentNotes = self.allNotes
 	}
 	
 	private func promptSignOut() {
@@ -375,9 +334,18 @@ struct MBMainView: View {
 			print("Error removing secret key from keychain.")
 		}
 
-		self.notes = []
+		self.currentNotes = []
+		self.allNotes = []
 		self.notebooks = []
 		self.isSigninSheet = true
 		self.isSignOutAlert = false
+		
+		Task {
+			if let path = StrataDatabase.getPath() {
+				let db = try Blackbird.Database(path: path)
+				try await MBNote.query(in: db, "DELETE FROM $T")
+				try await MBNotebook.query(in: db, "DELETE FROM $T")
+			}
+		}
 	}
 }

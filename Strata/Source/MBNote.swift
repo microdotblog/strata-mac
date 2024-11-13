@@ -41,6 +41,16 @@ struct MBNote: BlackbirdModel, Identifiable {
 		return self.text
 	}
 	
+	mutating func fromFeedItem(_ item: FeedItem) {
+		self.setEncrypted(item.contentText)
+		if let date_published = item.datePublished {
+			self.createdAt = item.parseDate(date_published)
+		}
+		if let date_modified = item.dateModified {
+			self.updatedAt = item.parseDate(date_modified)
+		}
+	}
+	
 	mutating func setEncrypted(_ encrypted: String) {
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
