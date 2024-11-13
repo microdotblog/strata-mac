@@ -161,10 +161,13 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 			request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 			
+			// because URLQueryItem doesn't encode + and we need it to
+			let encrypted_encoded = encryptedText.replacingOccurrences(of: "+", with: "%2B")
+			
 			var components = URLComponents()
 			components.queryItems = [
 				URLQueryItem(name: "notebook_id", value: self.notebookID),
-				URLQueryItem(name: "text", value: encryptedText),
+				URLQueryItem(name: "text", value: encrypted_encoded),
 				URLQueryItem(name: "is_encrypted", value: "1")
 			]
 
