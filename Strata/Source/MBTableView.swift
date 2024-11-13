@@ -33,17 +33,23 @@ struct MBTableView: NSViewRepresentable {
 	}
 
 	func updateNSView(_ nsView: NSScrollView, context: Context) {
-		if let tableView = nsView.documentView as? NSTableView {
+		if let table = nsView.documentView as? NSTableView {
 			if context.coordinator.anyChanges(data: self.data) {
 				context.coordinator.data = self.data
-				tableView.reloadData()
+				table.reloadData()
+			}
+			
+			if let selected_note = self.selection {
+				context.coordinator.selectNote(selected_note, table: table)
 			}
 		}
 	}
 
 	func makeCoordinator() -> MBTableCoordinator {
 		MBTableCoordinator(data: data) { selectedRow in
-			self.selection = self.data[selectedRow]
+			if selectedRow < self.data.count {
+				self.selection = self.data[selectedRow]
+			}
 		}
 	}
 
@@ -58,6 +64,15 @@ struct MBTableView: NSViewRepresentable {
 
 		func anyChanges(data: [MBNote]) -> Bool {
 			return data != self.data
+		}
+		
+		func selectNote(_ note: MBNote, table: NSTableView) {
+			guard let index = self.data.firstIndex(of: note) else { return }
+			
+			let current_selection = table.selectedRowIndexes
+			if !current_selection.contains(index) {
+				table.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
+			}
 		}
 		
 		func numberOfRows(in tableView: NSTableView) -> Int {

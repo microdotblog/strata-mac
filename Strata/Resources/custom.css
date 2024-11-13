@@ -1,7 +1,7 @@
 body {
 	padding: 0px;
 	margin: 0px;
-	background-color: #fdf9dd;
+/*	background-color: #fdf9dd;*/
 }
 
 .editor {
@@ -10,7 +10,7 @@ body {
 	padding: 12px;
 	border: 0px;
 	border-radius: 0px;
-	background-color: #fdf9dd;
+/*	background-color: #fdf9dd;*/
 	height: 100%;
 }
 

@@ -320,6 +320,7 @@ struct MBMainView: View {
 	
 	private func newNote() {
 		let new_note = MBNote()
+		self.selectedNote = new_note
 		self.allNotes.insert(new_note, at: 0)
 		self.currentNotes = self.allNotes
 	}

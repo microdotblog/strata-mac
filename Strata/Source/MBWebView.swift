@@ -28,6 +28,7 @@ struct MBWebView: NSViewRepresentable {
 		webview.allowsBackForwardNavigationGestures = false
 		webview.allowsLinkPreview = true
 		webview.navigationDelegate = self.webDelegate
+		webview.isHidden = true
 
 		// load our basic HTML and JS
 		self.webDelegate.loadHTML(webview)
@@ -36,6 +37,9 @@ struct MBWebView: NSViewRepresentable {
 	}
 	
 	func updateNSView(_ webView: WKWebView, context: Context) {
+		// update for new delegate
+		webView.navigationDelegate = self.webDelegate
+
 		self.webDelegate.isLoaded(webView: webView) { is_loaded in
 			if is_loaded {
 				self.webDelegate.loadNoteText(self.text, webView: webView)
@@ -43,7 +47,7 @@ struct MBWebView: NSViewRepresentable {
 			}
 			else {
 				// if not yet loaded, give it a little more time
-				DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
 					self.webDelegate.loadNoteText(self.text, webView: webView)
 					self.webDelegate.loadBackground(self.notebook.lightColor, webView: webView)
 				}
@@ -63,6 +67,7 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 	}
 	
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+		webView.isHidden = false
 		self.startEditingTimer(webView: webView)
 	}
 
@@ -137,6 +142,8 @@ class MBWebDelegate: NSObject, WKNavigationDelegate {
 			return
 		}
 
+		print("Saving plaintext: \(plainText)")
+		
 		if let secret_key = MBKeychain.shared.get(key: Constants.Keychain.secret) {
 			let without_prefix = secret_key.replacingOccurrences(of: "mkey", with: "")
 			let s = MBNoteUtils.encryptText(plainText, withKey: without_prefix)
