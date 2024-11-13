@@ -65,7 +65,7 @@ struct MBTableView: NSViewRepresentable {
 		}
 
 		func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-			let identifier = NSUserInterfaceItemIdentifier("NoteCell")
+			let identifier = NSUserInterfaceItemIdentifier("NoteCell\(row)")
 			if let cell = tableView.makeView(withIdentifier: identifier, owner: nil) as? NSHostingView<MBNoteCell> {
 				self.configure(cell, forRow: row)
 				return cell
